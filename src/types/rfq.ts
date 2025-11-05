@@ -27,9 +27,17 @@ export interface RFQ {
   // Status
   status: 'new' | 'contacted' | 'quoted' | 'won' | 'lost'
   
-  // Metadata
+  // Location & Metadata
   ip_address?: string
+  city?: string
+  state?: string
   country?: string
+  country_code?: string
+  is_usa?: boolean
+  timezone?: string
+  latitude?: number
+  longitude?: number
+  isp?: string
   session_id?: string
 }
 

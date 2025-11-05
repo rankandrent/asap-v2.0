@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import type { RFQ, RFQFormData, RFQAnalytics } from '../types/rfq'
+import { getUserLocation, getBrowserInfo } from './locationTracking'
 
 export const submitRFQ = async (
   data: RFQFormData,
@@ -10,13 +11,28 @@ export const submitRFQ = async (
     userAgent?: string
   }
 ): Promise<{ data: RFQ | null; error: any }> => {
+  // Get user location data
+  const locationData = await getUserLocation()
+  const browserInfo = getBrowserInfo()
+
   const rfqData = {
     ...data,
     source_page: trackingData.sourcePage,
     source_url: trackingData.sourceUrl,
     referrer: trackingData.referrer,
-    user_agent: trackingData.userAgent,
+    user_agent: trackingData.userAgent || browserInfo.userAgent,
     status: 'new' as const,
+    // Location tracking fields
+    ip_address: locationData?.ip,
+    city: locationData?.city,
+    state: locationData?.state,
+    country: locationData?.country,
+    country_code: locationData?.countryCode,
+    is_usa: locationData?.isUSA,
+    timezone: locationData?.timezone || browserInfo.timezone,
+    latitude: locationData?.latitude,
+    longitude: locationData?.longitude,
+    isp: locationData?.isp,
   }
 
   const { data: insertedData, error } = await supabase
