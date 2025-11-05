@@ -133,7 +133,7 @@ export default function AIChatbot() {
         
         addBotMessage(
           `Got it! ${urgency === 'critical' ? '🔥 Priority request' : urgency === 'urgent' ? '⚡ Rush order' : '✅ Standard delivery'}\n\nTo send you the best quote, I need:\n\n📧 Your email address\n👤 Your name\n📞 Phone number (optional)\n\nPlease share your contact info:`,
-          ['I'll fill a form instead']
+          ["I'll fill a form instead"]
         )
         break
 
