@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async"
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
 import AISmartChatbot from "./components/common/AISmartChatbot"
+import ExitIntentPopup from "./components/common/ExitIntentPopup"
 import HomePage from "./pages/HomePage"
 import CategoryPage from "./pages/CategoryPage"
 import SubcategoryPage from "./pages/SubcategoryPage"
@@ -61,6 +62,7 @@ function App() {
               </main>
               <Footer />
               <AISmartChatbot />
+              <ExitIntentPopup />
             </div>
           } />
         </Routes>
