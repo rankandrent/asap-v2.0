@@ -1,15 +1,25 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HelmetProvider } from "react-helmet-async"
+import { AuthProvider } from "./contexts/AuthContext"
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
 import AISmartChatbot from "./components/common/AISmartChatbot"
 import ExitIntentPopup from "./components/common/ExitIntentPopup"
+import ProtectedRoute from "./components/auth/ProtectedRoute"
 import HomePage from "./pages/HomePage"
 import CategoryPage from "./pages/CategoryPage"
 import SubcategoryPage from "./pages/SubcategoryPage"
 import PartDetailPage from "./pages/PartDetailPage"
 import SearchPage from "./pages/SearchPage"
 import NotFound from "./pages/NotFound"
+
+// Auth Pages
+import Login from "./pages/auth/Login"
+import SignUp from "./pages/auth/SignUp"
+
+// User Dashboard Pages
+import UserDashboard from "./pages/user/Dashboard"
+import OrderHistory from "./pages/user/OrderHistory"
 
 // Admin Pages
 import DashboardLayout from "./pages/admin/DashboardLayout"
@@ -25,8 +35,31 @@ import Settings from "./pages/admin/Settings"
 function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+          {/* Auth Routes */}
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/signup" element={<SignUp />} />
+
+          {/* User Dashboard Routes (Protected) */}
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <UserDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/dashboard/orders" 
+            element={
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
+            } 
+          />
+
           {/* Admin Dashboard Routes */}
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
@@ -67,7 +100,8 @@ function App() {
           } />
         </Routes>
       </BrowserRouter>
-    </HelmetProvider>
+    </AuthProvider>
+  </HelmetProvider>
   )
 }
 
