@@ -5,6 +5,7 @@ import { useSubcategories } from "../hooks/useSubcategories"
 import Breadcrumb from "../components/layout/Breadcrumb"
 import PartDetail from "../components/parts/PartDetail"
 import PartContent from "../components/parts/PartContent"
+import PartFAQs from "../components/parts/PartFAQs"
 import RelatedParts from "../components/parts/RelatedParts"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import SEO from "../components/common/SEO"
@@ -164,6 +165,9 @@ export default function PartDetailPage() {
 
         {/* Rich Programmatic Content */}
         <PartContent part={part} />
+
+        {/* FAQs Section with Part Number */}
+        <PartFAQs part={part} />
 
         <div className="mt-8">
           <RelatedParts currentPart={part} />
