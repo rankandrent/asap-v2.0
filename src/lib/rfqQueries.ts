@@ -132,7 +132,7 @@ export const getRFQAnalytics = async (): Promise<{
           return acc
         }, {} as Record<string, number>) || {}
       )
-        .map(([date, count]) => ({ date, count }))
+        .map(([date, count]) => ({ date, count: Number(count) }))
         .sort((a, b) => a.date.localeCompare(b.date))
         .slice(-30), // Last 30 days
       
@@ -152,7 +152,7 @@ export const getRFQAnalytics = async (): Promise<{
           return acc
         }, {} as Record<string, number>) || {}
       )
-        .map(([part, count]) => ({ part, count }))
+        .map(([part, count]) => ({ part, count: Number(count) }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 10), // Top 10
     }

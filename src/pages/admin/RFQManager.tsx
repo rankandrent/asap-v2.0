@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getRFQs, getRFQAnalytics, updateRFQStatus, getRFQsByPage } from '../../lib/rfqQueries'
+import { getRFQs, getRFQAnalytics, updateRFQStatus } from '../../lib/rfqQueries'
 import type { RFQ, RFQAnalytics } from '../../types/rfq'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Badge } from '../../components/ui/badge'

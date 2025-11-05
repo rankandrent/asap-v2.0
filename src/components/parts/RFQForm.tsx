@@ -56,7 +56,7 @@ export default function RFQForm({ part }: RFQFormProps) {
       }
 
       // Submit RFQ
-      const { data, error: submitError } = await submitRFQ(rfqData, trackingData)
+      const { error: submitError } = await submitRFQ(rfqData, trackingData)
 
       if (submitError) {
         throw new Error(submitError.message || 'Failed to submit RFQ')

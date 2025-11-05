@@ -4,7 +4,7 @@ import { getOrderById, getOrderStatusHistory } from '../../lib/orderQueries'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Badge } from '../../components/ui/badge'
 import { Button } from '../../components/ui/button'
-import { Package, Truck, MapPin, Calendar, DollarSign, ArrowLeft, Loader2 } from 'lucide-react'
+import { Truck, ArrowLeft, Loader2 } from 'lucide-react'
 import type { Order, OrderStatusHistory } from '../../types/order'
 import SEO from '../../components/common/SEO'
 

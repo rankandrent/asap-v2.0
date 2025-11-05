@@ -192,7 +192,6 @@ export default function AISmartChatbot() {
       } else {
         // General query - use GPT to respond naturally
         const keywords = input.toLowerCase()
-        let partInfo: PartInfo | undefined
 
         // Check if user is asking about categories
         if (keywords.includes('standoff') || keywords.includes('spacer') || keywords.includes('fastener')) {

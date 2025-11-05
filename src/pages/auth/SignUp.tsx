@@ -66,7 +66,7 @@ export default function SignUp() {
   if (success) {
     return (
       <>
-        <SEO title="Sign Up Success - ASAPAmatom.com" />
+        <SEO title="Sign Up Success - ASAPAmatom.com" description="Your account has been created successfully. Check your email to verify your account." />
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-emerald-50 py-12 px-4">
           <Card className="max-w-md w-full">
             <CardContent className="pt-6 text-center">
