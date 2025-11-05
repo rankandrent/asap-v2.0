@@ -20,6 +20,8 @@ import SignUp from "./pages/auth/SignUp"
 // User Dashboard Pages
 import UserDashboard from "./pages/user/Dashboard"
 import OrderHistory from "./pages/user/OrderHistory"
+import OrderDetail from "./pages/user/OrderDetail"
+import ProfileSettings from "./pages/user/ProfileSettings"
 
 // Admin Pages
 import DashboardLayout from "./pages/admin/DashboardLayout"
@@ -35,73 +37,113 @@ import Settings from "./pages/admin/Settings"
 function App() {
   return (
     <HelmetProvider>
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <Routes>
-          {/* Auth Routes */}
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/signup" element={<SignUp />} />
+            {/* Auth Routes (No Layout) */}
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<SignUp />} />
 
-          {/* User Dashboard Routes (Protected) */}
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute>
-                <UserDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/dashboard/orders" 
-            element={
-              <ProtectedRoute>
-                <OrderHistory />
-              </ProtectedRoute>
-            } 
-          />
+            {/* User Dashboard Routes (Protected) */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-1">
+                      <UserDashboard />
+                    </main>
+                    <Footer />
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/orders"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-1">
+                      <OrderHistory />
+                    </main>
+                    <Footer />
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/orders/:orderId"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-1">
+                      <OrderDetail />
+                    </main>
+                    <Footer />
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/profile"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-1">
+                      <ProfileSettings />
+                    </main>
+                    <Footer />
+                  </div>
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Admin Dashboard Routes */}
-          <Route path="/admin" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="rfqs" element={<RFQManager />} />
-            <Route path="seo" element={<SEOManager />} />
-            <Route path="blogs" element={<BlogManager />} />
-            <Route path="automation" element={<AIAutomation />} />
-            <Route path="schedule" element={<Scheduler />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
+            {/* Admin Dashboard Routes */}
+            <Route path="/admin" element={<DashboardLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="rfqs" element={<RFQManager />} />
+              <Route path="seo" element={<SEOManager />} />
+              <Route path="blogs" element={<BlogManager />} />
+              <Route path="automation" element={<AIAutomation />} />
+              <Route path="schedule" element={<Scheduler />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
 
-          {/* Public Website Routes */}
-          <Route path="/*" element={
-            <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-1">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/categories" element={<HomePage />} />
-                  <Route
-                    path="/categories/:categorySlug"
-                    element={<CategoryPage />}
-                  />
-                  <Route
-                    path="/categories/:categorySlug/:subcategorySlug"
-                    element={<SubcategoryPage />}
-                  />
-                  <Route path="/parts/:productname" element={<PartDetailPage />} />
-                  <Route path="/search" element={<SearchPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
-              <Footer />
-              <AISmartChatbot />
-              <ExitIntentPopup />
-            </div>
-          } />
-        </Routes>
+            {/* Public Website Routes */}
+            <Route
+              path="/*"
+              element={
+                <div className="min-h-screen flex flex-col">
+                  <Header />
+                  <main className="flex-1">
+                    <Routes>
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/categories" element={<HomePage />} />
+                      <Route path="/categories/:categorySlug" element={<CategoryPage />} />
+                      <Route
+                        path="/categories/:categorySlug/:subcategorySlug"
+                        element={<SubcategoryPage />}
+                      />
+                      <Route path="/parts/:productname" element={<PartDetailPage />} />
+                      <Route path="/search" element={<SearchPage />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </main>
+                  <Footer />
+                  <AISmartChatbot />
+                  <ExitIntentPopup />
+                </div>
+              }
+            />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
-    </AuthProvider>
-  </HelmetProvider>
+    </HelmetProvider>
   )
 }
 

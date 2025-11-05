@@ -1,45 +1,30 @@
 import { supabase } from './supabase'
-import type { Order, OrderSummary, OrderStatus } from '../types/order'
+import type { Order, OrderStatusHistory, OrderSummary } from '../types/order'
 
 /**
- * Get all orders for the current user
+ * Get all orders for a specific user
  */
-export const getUserOrders = async (): Promise<{ data: Order[] | null; error: any }> => {
+export const getUserOrders = async (userId: string): Promise<{ data: Order[] | null; error: any }> => {
   const { data, error } = await supabase
     .from('orders')
     .select('*')
+    .eq('user_id', userId)
     .order('created_at', { ascending: false })
 
   return { data, error }
 }
 
 /**
- * Get order summary for dashboard
+ * Get guest orders by email
  */
-export const getOrderSummary = async (): Promise<{ data: OrderSummary | null; error: any }> => {
-  try {
-    const { data: orders, error } = await supabase
-      .from('orders')
-      .select('*')
-      .order('created_at', { ascending: false })
+export const getGuestOrders = async (email: string): Promise<{ data: Order[] | null; error: any }> => {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('guest_email', email)
+    .order('created_at', { ascending: false })
 
-    if (error) return { data: null, error }
-
-    if (!orders) return { data: null, error: null }
-
-    const summary: OrderSummary = {
-      total_orders: orders.length,
-      pending_orders: orders.filter(o => o.status === 'pending' || o.status === 'confirmed' || o.status === 'processing').length,
-      shipped_orders: orders.filter(o => o.status === 'shipped').length,
-      delivered_orders: orders.filter(o => o.status === 'delivered').length,
-      total_spent: orders.reduce((sum, o) => sum + (o.total || 0), 0),
-      recent_orders: orders.slice(0, 5),
-    }
-
-    return { data: summary, error: null }
-  } catch (error) {
-    return { data: null, error }
-  }
+  return { data, error }
 }
 
 /**
@@ -56,22 +41,11 @@ export const getOrderById = async (orderId: string): Promise<{ data: Order | nul
 }
 
 /**
- * Get order by order number
- */
-export const getOrderByNumber = async (orderNumber: string): Promise<{ data: Order | null; error: any }> => {
-  const { data, error } = await supabase
-    .from('orders')
-    .select('*')
-    .eq('order_number', orderNumber)
-    .single()
-
-  return { data, error }
-}
-
-/**
  * Get order status history
  */
-export const getOrderHistory = async (orderId: string) => {
+export const getOrderStatusHistory = async (
+  orderId: string
+): Promise<{ data: OrderStatusHistory[] | null; error: any }> => {
   const { data, error } = await supabase
     .from('order_status_history')
     .select('*')
@@ -82,60 +56,90 @@ export const getOrderHistory = async (orderId: string) => {
 }
 
 /**
- * Update order status (admin only)
+ * Get order summary/statistics for user dashboard
  */
-export const updateOrderStatus = async (
-  orderId: string,
-  status: OrderStatus,
-  notes?: string
-): Promise<{ error: any }> => {
+export const getOrderSummary = async (userId: string): Promise<{ data: OrderSummary | null; error: any }> => {
   try {
-    // Update order status
-    const { error: updateError } = await supabase
+    // Get all user orders
+    const { data: orders, error } = await supabase
       .from('orders')
-      .update({ status, updated_at: new Date().toISOString() })
-      .eq('id', orderId)
+      .select('*')
+      .eq('user_id', userId)
 
-    if (updateError) return { error: updateError }
+    if (error) throw error
 
-    // Add to status history
-    const { error: historyError } = await supabase
-      .from('order_status_history')
-      .insert({
-        order_id: orderId,
-        status,
-        notes,
-      })
+    if (!orders || orders.length === 0) {
+      return {
+        data: {
+          total_orders: 0,
+          pending_orders: 0,
+          shipped_orders: 0,
+          delivered_orders: 0,
+          total_spent: 0,
+          recent_orders: [],
+        },
+        error: null,
+      }
+    }
 
-    return { error: historyError }
-  } catch (error) {
-    return { error }
+    // Calculate statistics
+    const summary: OrderSummary = {
+      total_orders: orders.length,
+      pending_orders: orders.filter((o) => o.status === 'pending' || o.status === 'confirmed').length,
+      shipped_orders: orders.filter((o) => o.status === 'shipped').length,
+      delivered_orders: orders.filter((o) => o.status === 'delivered').length,
+      total_spent: orders.reduce((sum, order) => sum + (order.total || 0), 0),
+      recent_orders: orders.slice(0, 5), // Last 5 orders
+    }
+
+    return { data: summary, error: null }
+  } catch (error: any) {
+    return { data: null, error }
   }
 }
 
 /**
- * Get orders by status
+ * Create a new order
  */
-export const getOrdersByStatus = async (status: OrderStatus): Promise<{ data: Order[] | null; error: any }> => {
-  const { data, error } = await supabase
-    .from('orders')
-    .select('*')
-    .eq('status', status)
-    .order('created_at', { ascending: false })
+export const createOrder = async (orderData: Partial<Order>): Promise<{ data: Order | null; error: any }> => {
+  const { data, error } = await supabase.from('orders').insert([orderData]).select().single()
 
   return { data, error }
 }
 
 /**
- * Search orders by customer email or order number
+ * Update order status (admin only)
  */
-export const searchOrders = async (query: string): Promise<{ data: Order[] | null; error: any }> => {
+export const updateOrderStatus = async (
+  orderId: string,
+  status: Order['status'],
+  notes?: string
+): Promise<{ error: any }> => {
+  const { error: orderError } = await supabase.from('orders').update({ status }).eq('id', orderId)
+
+  if (orderError) return { error: orderError }
+
+  // Add to status history
+  const { error: historyError } = await supabase.from('order_status_history').insert([
+    {
+      order_id: orderId,
+      status,
+      notes: notes || `Order status updated to ${status}`,
+    },
+  ])
+
+  return { error: historyError }
+}
+
+/**
+ * Get order by order number
+ */
+export const getOrderByNumber = async (orderNumber: string): Promise<{ data: Order | null; error: any }> => {
   const { data, error } = await supabase
     .from('orders')
     .select('*')
-    .or(`customer_email.ilike.%${query}%,order_number.ilike.%${query}%`)
-    .order('created_at', { ascending: false })
-    .limit(20)
+    .eq('order_number', orderNumber)
+    .single()
 
   return { data, error }
 }
