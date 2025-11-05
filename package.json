@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-sitemap": "tsx scripts/generate-sitemap.ts",
-    "generate-sitemap:hierarchical": "tsx scripts/generate-hierarchical-sitemap.ts"
+    "generate-sitemap:hierarchical": "tsx scripts/generate-hierarchical-sitemap.ts",
+    "generate-sitemap:complete": "tsx scripts/generate-complete-sitemap-v2.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
