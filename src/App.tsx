@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HelmetProvider } from "react-helmet-async"
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
-import AIChatbot from "./components/common/AIChatbot"
+import AISmartChatbot from "./components/common/AISmartChatbot"
 import HomePage from "./pages/HomePage"
 import CategoryPage from "./pages/CategoryPage"
 import SubcategoryPage from "./pages/SubcategoryPage"
@@ -60,7 +60,7 @@ function App() {
                 </Routes>
               </main>
               <Footer />
-              <AIChatbot />
+              <AISmartChatbot />
             </div>
           } />
         </Routes>
