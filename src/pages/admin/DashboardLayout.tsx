@@ -10,7 +10,8 @@ import {
   Calendar,
   Menu,
   X,
-  LogOut
+  LogOut,
+  Mail
 } from "lucide-react"
 
 export default function DashboardLayout() {
@@ -19,6 +20,7 @@ export default function DashboardLayout() {
 
   const navItems = [
     { path: "/admin", icon: LayoutDashboard, label: "Dashboard", exact: true },
+    { path: "/admin/rfqs", icon: Mail, label: "RFQ Manager" },
     { path: "/admin/seo", icon: Search, label: "SEO Management" },
     { path: "/admin/blogs", icon: FileText, label: "AI Blog Manager" },
     { path: "/admin/automation", icon: Bot, label: "AI Automations" },

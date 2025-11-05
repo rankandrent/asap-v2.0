@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HelmetProvider } from "react-helmet-async"
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
+import AIChatbot from "./components/common/AIChatbot"
 import HomePage from "./pages/HomePage"
 import CategoryPage from "./pages/CategoryPage"
 import SubcategoryPage from "./pages/SubcategoryPage"
@@ -12,6 +13,7 @@ import NotFound from "./pages/NotFound"
 // Admin Pages
 import DashboardLayout from "./pages/admin/DashboardLayout"
 import Dashboard from "./pages/admin/Dashboard"
+import RFQManager from "./pages/admin/RFQManager"
 import SEOManager from "./pages/admin/SEOManager"
 import BlogManager from "./pages/admin/BlogManager"
 import AIAutomation from "./pages/admin/AIAutomation"
@@ -27,6 +29,7 @@ function App() {
           {/* Admin Dashboard Routes */}
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="rfqs" element={<RFQManager />} />
             <Route path="seo" element={<SEOManager />} />
             <Route path="blogs" element={<BlogManager />} />
             <Route path="automation" element={<AIAutomation />} />
@@ -57,6 +60,7 @@ function App() {
                 </Routes>
               </main>
               <Footer />
+              <AIChatbot />
             </div>
           } />
         </Routes>

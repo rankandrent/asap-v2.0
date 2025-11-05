@@ -4,37 +4,88 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { Badge } from "../ui/badge"
 import type { Part } from "../../types/part"
+import { submitRFQ } from "../../lib/rfqQueries"
+import type { RFQFormData } from "../../types/rfq"
 
 interface RFQFormProps {
   part: Part
 }
 
 export default function RFQForm({ part }: RFQFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Omit<RFQFormData, 'quantity' | 'urgency'> & { quantity: string, urgency: 'standard' | 'urgent' | 'critical' }>({
     name: "",
     email: "",
     phone: "",
     company: "",
-    quantity: "",
-    targetPrice: "",
-    message: ""
+    quantity: "1",
+    target_price: undefined,
+    message: "",
+    urgency: "standard"
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would send the RFQ to your backend
-    console.log("RFQ Submitted:", {
-      ...formData,
-      productname: part.productname,
-      manufacturer: part.manufacturer
-    })
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
+    setSubmitting(true)
+    setError(null)
+
+    try {
+      // Prepare tracking data
+      const trackingData = {
+        sourcePage: 'Part Detail Page',
+        sourceUrl: window.location.href,
+        referrer: document.referrer || undefined,
+        userAgent: navigator.userAgent
+      }
+
+      // Prepare RFQ data
+      const rfqData: RFQFormData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        company: formData.company || undefined,
+        part_number: part.productname,
+        part_description: part.description || `${part.category} - ${part.sub_category}`,
+        quantity: parseInt(formData.quantity) || 1,
+        target_price: formData.target_price ? parseFloat(formData.target_price as any) : undefined,
+        message: formData.message || undefined,
+        urgency: formData.urgency
+      }
+
+      // Submit RFQ
+      const { data, error: submitError } = await submitRFQ(rfqData, trackingData)
+
+      if (submitError) {
+        throw new Error(submitError.message || 'Failed to submit RFQ')
+      }
+
+      setSubmitted(true)
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setSubmitted(false)
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          quantity: "1",
+          target_price: undefined,
+          message: "",
+          urgency: "standard"
+        })
+      }, 5000)
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit RFQ. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -151,7 +202,7 @@ export default function RFQForm({ part }: RFQFormProps) {
             </div>
 
             {/* Order Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Quantity Required <span className="text-red-500">*</span>
@@ -173,13 +224,31 @@ export default function RFQForm({ part }: RFQFormProps) {
                   Target Price (Optional)
                 </label>
                 <Input
-                  type="text"
-                  name="targetPrice"
-                  value={formData.targetPrice}
+                  type="number"
+                  step="0.01"
+                  name="target_price"
+                  value={formData.target_price || ''}
                   onChange={handleChange}
-                  placeholder="$10.00 per unit"
+                  placeholder="10.00"
                   className="w-full"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Urgency <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="urgency"
+                  value={formData.urgency}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="standard">Standard</option>
+                  <option value="urgent">Urgent</option>
+                  <option value="critical">Critical</option>
+                </select>
               </div>
             </div>
 
@@ -198,13 +267,21 @@ export default function RFQForm({ part }: RFQFormProps) {
               />
             </div>
 
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
             {/* Submit Button */}
             <div className="flex gap-3 pt-2">
               <Button 
                 type="submit" 
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-6 text-lg"
+                disabled={submitting}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-6 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                📧 Submit RFQ Request
+                {submitting ? '⏳ Submitting...' : '📧 Submit RFQ Request'}
               </Button>
               <Button 
                 type="button" 
