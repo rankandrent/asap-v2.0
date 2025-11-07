@@ -137,20 +137,44 @@ async function getPartsBySubcategory(
   categoryName: string,
   subcategoryName: string
 ): Promise<Part[]> {
-  const { data, error } = await supabase
-    .from('products_data')
-    .select('productname')
-    .eq('category', categoryName)
-    .eq('sub_category', subcategoryName)
-    .eq('manufacturer', 'Amatom')
-    .order('productname', { ascending: true })
+  const allParts: Part[] = []
+  let lastProductname = ''
+  const BATCH_SIZE = 1000
 
-  if (error) {
-    console.error('Error fetching parts:', error)
-    return []
+  while (true) {
+    const query = supabase
+      .from('products_data')
+      .select('productname')
+      .eq('category', categoryName)
+      .eq('sub_category', subcategoryName)
+      .eq('manufacturer', 'Amatom')
+      .order('productname', { ascending: true })
+      .limit(BATCH_SIZE)
+
+    if (lastProductname) {
+      query.gt('productname', lastProductname)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      console.error('Error fetching parts:', error)
+      break
+    }
+
+    if (!data || data.length === 0) {
+      break
+    }
+
+    allParts.push(...(data as Part[]))
+    lastProductname = data[data.length - 1].productname
+
+    if (data.length < BATCH_SIZE) {
+      break
+    }
   }
 
-  return (data as Part[]) || []
+  return allParts
 }
 
 async function generateMainPagesSitemap(today: string): Promise<string> {
@@ -192,33 +216,36 @@ async function generateMainPagesSitemap(today: string): Promise<string> {
 
 async function generateCategorySitemap(
   category: Category,
-  subcategories: Subcategory[],
+  subcategoryFilenames: string[][],
   today: string
 ): Promise<string> {
-  console.log(`\n📂 Generating sitemap for category: ${category.name}`)
+  console.log(`\n📂 Generating sitemap index for category: ${category.name}`)
   let sitemap = generateSitemapIndexHeader()
 
-  // Add each subcategory as a sitemap reference
-  for (const subcategory of subcategories) {
-    const subcategorySitemapName = `sitemap-${category.slug}-${subcategory.slug}.xml`
-    sitemap += generateSitemapIndexEntry(
-      `${SITE_URL}/${subcategorySitemapName}`,
-      today
-    )
-  }
-
-  // Also add the category page itself as a URL sitemap
+  // Add category page sitemap
   const categoryPageSitemapName = `sitemap-${category.slug}-page.xml`
   sitemap += generateSitemapIndexEntry(
     `${SITE_URL}/${categoryPageSitemapName}`,
     today
   )
 
+  // Add each subcategory sitemap (might be multiple files per subcategory)
+  for (const filenames of subcategoryFilenames) {
+    for (const filename of filenames) {
+      sitemap += generateSitemapIndexEntry(
+        `${SITE_URL}/${filename}`,
+        today
+      )
+    }
+  }
+
   sitemap += '</sitemapindex>'
 
   const filename = `sitemap-${category.slug}.xml`
   fs.writeFileSync(path.join(OUTPUT_DIR, filename), sitemap, 'utf8')
-  console.log(`  ✅ Created ${filename} with ${subcategories.length + 1} sitemap references`)
+  
+  const totalSitemaps = subcategoryFilenames.flat().length + 1
+  console.log(`  ✅ Created ${filename} with ${totalSitemaps} sitemap references`)
 
   return filename
 }
@@ -248,40 +275,90 @@ async function generateCategoryPageSitemap(
 async function generateSubcategorySitemap(
   subcategory: Subcategory,
   today: string
-): Promise<string> {
+): Promise<string[]> {
   console.log(`    📋 Generating sitemap for subcategory: ${subcategory.name}`)
   
-  let sitemap = generateSitemapHeader()
-
-  // Subcategory page itself
-  sitemap += generateUrlEntry(
-    `${SITE_URL}/categories/${subcategory.categorySlug}/${subcategory.slug}`,
-    today,
-    'weekly',
-    '0.8'
-  )
-
   // Get all parts in this subcategory
   const parts = await getPartsBySubcategory(subcategory.category, subcategory.name)
-  console.log(`      🔧 Found ${parts.length} parts`)
+  console.log(`      🔧 Found ${parts.length.toLocaleString()} parts`)
 
-  // Add all parts
-  for (const part of parts) {
+  const MAX_URLS_PER_SITEMAP = 50000
+  const filenames: string[] = []
+  
+  // If parts + subcategory page <= 50,000, create single sitemap
+  if (parts.length + 1 <= MAX_URLS_PER_SITEMAP) {
+    let sitemap = generateSitemapHeader()
+
+    // Subcategory page itself
     sitemap += generateUrlEntry(
-      `${SITE_URL}/parts/${encodeURIComponent(part.productname)}`,
+      `${SITE_URL}/categories/${subcategory.categorySlug}/${subcategory.slug}`,
       today,
-      'monthly',
-      '0.7'
+      'weekly',
+      '0.8'
     )
+
+    // Add all parts
+    for (const part of parts) {
+      sitemap += generateUrlEntry(
+        `${SITE_URL}/parts/${encodeURIComponent(part.productname)}`,
+        today,
+        'monthly',
+        '0.7'
+      )
+    }
+
+    sitemap += '</urlset>'
+
+    const filename = `sitemap-${subcategory.categorySlug}-${subcategory.slug}.xml`
+    fs.writeFileSync(path.join(OUTPUT_DIR, filename), sitemap, 'utf8')
+    console.log(`      ✅ Created ${filename} with ${(parts.length + 1).toLocaleString()} URLs`)
+    filenames.push(filename)
+  } else {
+    // Split into multiple sitemaps
+    const totalSitemaps = Math.ceil((parts.length + 1) / MAX_URLS_PER_SITEMAP)
+    console.log(`      📑 Splitting into ${totalSitemaps} sitemap files...`)
+    
+    let currentSitemapIndex = 1
+    let currentUrls: string[] = []
+    
+    // Add subcategory page to first sitemap
+    currentUrls.push(generateUrlEntry(
+      `${SITE_URL}/categories/${subcategory.categorySlug}/${subcategory.slug}`,
+      today,
+      'weekly',
+      '0.8'
+    ))
+    
+    for (const part of parts) {
+      currentUrls.push(generateUrlEntry(
+        `${SITE_URL}/parts/${encodeURIComponent(part.productname)}`,
+        today,
+        'monthly',
+        '0.7'
+      ))
+      
+      if (currentUrls.length >= MAX_URLS_PER_SITEMAP) {
+        const filename = `sitemap-${subcategory.categorySlug}-${subcategory.slug}-${currentSitemapIndex}.xml`
+        const content = generateSitemapHeader() + currentUrls.join('') + '</urlset>'
+        fs.writeFileSync(path.join(OUTPUT_DIR, filename), content, 'utf8')
+        console.log(`      ✅ Created ${filename} with ${currentUrls.length.toLocaleString()} URLs`)
+        filenames.push(filename)
+        currentUrls = []
+        currentSitemapIndex++
+      }
+    }
+    
+    // Write remaining URLs
+    if (currentUrls.length > 0) {
+      const filename = `sitemap-${subcategory.categorySlug}-${subcategory.slug}-${currentSitemapIndex}.xml`
+      const content = generateSitemapHeader() + currentUrls.join('') + '</urlset>'
+      fs.writeFileSync(path.join(OUTPUT_DIR, filename), content, 'utf8')
+      console.log(`      ✅ Created ${filename} with ${currentUrls.length.toLocaleString()} URLs`)
+      filenames.push(filename)
+    }
   }
 
-  sitemap += '</urlset>'
-
-  const filename = `sitemap-${subcategory.categorySlug}-${subcategory.slug}.xml`
-  fs.writeFileSync(path.join(OUTPUT_DIR, filename), sitemap, 'utf8')
-  console.log(`      ✅ Created ${filename} with ${parts.length + 1} URLs`)
-
-  return filename
+  return filenames
 }
 
 async function generateMainSitemapIndex(
@@ -341,8 +418,10 @@ async function main() {
       totalUrls += 1
       
       // Generate subcategory sitemaps (with parts)
+      const subcategoryFilenames: string[][] = []
       for (const subcategory of subcategories) {
-        await generateSubcategorySitemap(subcategory, today)
+        const filenames = await generateSubcategorySitemap(subcategory, today)
+        subcategoryFilenames.push(filenames)
         
         // Count parts for stats
         const parts = await getPartsBySubcategory(subcategory.category, subcategory.name)
@@ -350,7 +429,7 @@ async function main() {
       }
       
       // Generate category index sitemap
-      const categorySitemapFile = await generateCategorySitemap(category, subcategories, today)
+      const categorySitemapFile = await generateCategorySitemap(category, subcategoryFilenames, today)
       categorySitemapFiles.push(categorySitemapFile)
     }
     

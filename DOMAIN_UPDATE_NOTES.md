@@ -39,12 +39,20 @@ All references to `https://www.asapamatom.com` have been updated to `https://asa
   - `src/components/common/AISmartChatbot.tsx`
   - `src/components/parts/PartFAQs.tsx`
 
-#### 3. Sitemaps
-- ✅ Regenerated all sitemaps with new domain (500,000+ parts)
-- ✅ Main sitemap index: `sitemap.xml`
-- ✅ 10 part sitemaps: `sitemap-parts-1.xml` through `sitemap-parts-11.xml`
-- ✅ Categories sitemap: `sitemap-categories.xml`
-- ✅ Main pages sitemap: `sitemap-main.xml`
+#### 3. Sitemaps (HIERARCHICAL STRUCTURE)
+- ✅ Regenerated all sitemaps with new domain (365,000+ parts)
+- ✅ **Hierarchical Category-Based Structure:**
+  - Main sitemap index: `sitemap.xml`
+  - Main pages: `sitemap-main.xml` (3 URLs)
+  - Category index: `sitemap-standoffs.xml`
+  - Subcategory sitemaps (11 files):
+    - Brass Standoffs (3 files - 122,484 parts)
+    - Aluminum Standoffs (3 files - 120,406 parts)
+    - Steel Standoffs (2 files - 82,461 parts)
+    - Stainless Steel Standoffs (1 file - 35,868 parts)
+    - Nylon Standoffs (1 file - 4,645 parts)
+
+**See `SITEMAP_STRUCTURE.md` for detailed structure.**
 
 #### 4. Environment Variables
 - ✅ Updated README.md with new VITE_SITE_URL
