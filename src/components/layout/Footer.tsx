@@ -33,7 +33,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Website: asapamatom.com</li>
+              <li>Website: asapamatom.netlify.app</li>
               <li>For inquiries, please contact us</li>
             </ul>
           </div>

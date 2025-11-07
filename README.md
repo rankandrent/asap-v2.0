@@ -34,8 +34,10 @@ Create a `.env` file in the root directory:
 ```env
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
-VITE_SITE_URL=https://www.asapamatom.com
+VITE_SITE_URL=https://asapamatom.netlify.app
 ```
+
+**Note:** The site is deployed on Netlify at `https://asapamatom.netlify.app`
 
 ### 3. Set Up Supabase Database
 

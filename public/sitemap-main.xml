@@ -4,20 +4,20 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://www.asapamatom.com/</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/</loc>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.asapamatom.com/categories</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/categories</loc>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.asapamatom.com/search</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/search</loc>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

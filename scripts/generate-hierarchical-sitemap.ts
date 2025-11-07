@@ -16,7 +16,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey)
-const SITE_URL = 'https://www.asapamatom.com'
+const SITE_URL = 'https://asapamatom.netlify.app'
 const OUTPUT_DIR = path.join(process.cwd(), 'public')
 
 interface Category {

@@ -92,7 +92,7 @@ export default function SignUp() {
       <SEO
         title="Sign Up - Create Account | ASAPAmatom.com"
         description="Create your free ASAPAmatom account to track orders, save time on checkout, and get personalized recommendations."
-        canonical="https://www.asapamatom.com/auth/signup"
+        canonical="https://asapamatom.netlify.app/auth/signup"
       />
 
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">

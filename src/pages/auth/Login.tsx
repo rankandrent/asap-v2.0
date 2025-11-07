@@ -39,7 +39,7 @@ export default function Login() {
       <SEO
         title="Login - ASAPAmatom.com"
         description="Sign in to your ASAPAmatom account to track orders, view order history, and manage your profile."
-        canonical="https://www.asapamatom.com/auth/login"
+        canonical="https://asapamatom.netlify.app/auth/login"
       />
 
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">

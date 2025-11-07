@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename)
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || ''
-const SITE_URL = process.env.VITE_SITE_URL || 'https://www.asapamatom.com'
+const SITE_URL = process.env.VITE_SITE_URL || 'https://asapamatom.netlify.app'
 const PUBLIC_DIR = path.join(__dirname, '../public')
 
 const MAX_URLS_PER_SITEMAP = 50000 // Google's limit

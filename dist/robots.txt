@@ -4,5 +4,5 @@ Allow: /
 # Disallow admin area from search engines
 Disallow: /admin
 
-Sitemap: https://www.asapamatom.com/sitemap.xml
+Sitemap: https://asapamatom.netlify.app/sitemap.xml
 

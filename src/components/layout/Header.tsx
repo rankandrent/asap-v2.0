@@ -20,7 +20,7 @@ export default function Header() {
                 Official Amatom Parts Catalog | 500,000+ Parts
               </p>
               {/* Hidden structured data for SEO */}
-              <meta itemProp="url" content="https://www.asapamatom.com" />
+              <meta itemProp="url" content="https://asapamatom.netlify.app" />
             </div>
           </Link>
           

@@ -14,8 +14,8 @@ export default function HomePage() {
     "@type": "Organization",
     "name": "ASAPAmatom.com",
     "description": "Official Amatom Parts Catalog - 500,000+ aerospace and industrial parts",
-    "url": "https://www.asapamatom.com",
-    "logo": "https://www.asapamatom.com/logo.png",
+    "url": "https://asapamatom.netlify.app",
+    "logo": "https://asapamatom.netlify.app/logo.png",
     "sameAs": []
   }
 
@@ -24,10 +24,10 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "ASAPAmatom.com",
-    "url": "https://www.asapamatom.com",
+    "url": "https://asapamatom.netlify.app",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://www.asapamatom.com/search?q={search_term_string}",
+      "target": "https://asapamatom.netlify.app/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -42,7 +42,7 @@ export default function HomePage() {
       <SEO
         title="ASAPAmatom.com - Official Amatom Parts Catalog | 500,000+ Parts"
         description="Browse complete catalog of Amatom aerospace and industrial parts. 500,000+ parts across multiple categories including Standoffs, Fasteners, and more. Official Amatom manufacturer parts."
-        canonical="https://www.asapamatom.com/"
+        canonical="https://asapamatom.netlify.app/"
         keywords="Amatom parts, aerospace parts, industrial parts, standoffs, fasteners, Amatom catalog, aviation parts, 500000 parts"
         schema={combinedSchema}
       />

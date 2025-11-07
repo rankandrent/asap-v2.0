@@ -42,7 +42,7 @@ export default function PartDetailPage() {
         <SEO
           title="Part Not Found"
           description="The part you're looking for doesn't exist or has been removed."
-          canonical={`https://www.asapamatom.com/parts/${productname}`}
+          canonical={`https://asapamatom.netlify.app/parts/${productname}`}
         />
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
@@ -60,8 +60,8 @@ export default function PartDetailPage() {
   const partTitle = `${part.productname} - ${part.description} | Amatom Parts`
   const partDescription = `Buy ${part.productname} from Amatom. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Status: ${part.availability_status}.` : ''} Official ASAPAmatom.com catalog.`
   const partKeywords = `${part.productname}, Amatom, ${part.category}, ${part.sub_category}, ${part.manufacturer}, aerospace parts, industrial parts`
-  const canonical = `https://www.asapamatom.com/parts/${encodeURIComponent(part.productname)}`
-  const imageUrl = part.images && part.images.length > 0 ? part.images[0] : 'https://www.asapamatom.com/og-image.jpg'
+  const canonical = `https://asapamatom.netlify.app/parts/${encodeURIComponent(part.productname)}`
+  const imageUrl = part.images && part.images.length > 0 ? part.images[0] : 'https://asapamatom.netlify.app/og-image.jpg'
 
   // Product Schema.org markup
   const productSchema = {
@@ -101,19 +101,19 @@ export default function PartDetailPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.asapamatom.com"
+        "item": "https://asapamatom.netlify.app"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": category?.name || part.category,
-        "item": `https://www.asapamatom.com/categories/${category?.slug || slugify(part.category)}`
+        "item": `https://asapamatom.netlify.app/categories/${category?.slug || slugify(part.category)}`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": subcategory?.name || part.sub_category,
-        "item": `https://www.asapamatom.com/categories/${category?.slug || slugify(part.category)}/${subcategory?.slug || slugify(part.sub_category)}`
+        "item": `https://asapamatom.netlify.app/categories/${category?.slug || slugify(part.category)}/${subcategory?.slug || slugify(part.sub_category)}`
       },
       {
         "@type": "ListItem",
