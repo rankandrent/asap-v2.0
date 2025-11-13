@@ -6,12 +6,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://asap-amatom.com/categories/standoffs/brass-standoffs</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://asap-amatom.com/categories/standoffs/aluminum-standoffs</loc>
+    <loc>https://asap-amatom.com/categories/standoffs/stainless-steel-standoffs</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -21,14 +16,18 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://asap-amatom.com/categories/standoffs/stainless-steel-standoffs</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://asap-amatom.com/categories/standoffs/nylon-standoffs</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://asap-amatom.com/categories/standoffs/brass-standoffs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://asap-amatom.com/categories/standoffs/aluminum-standoffs</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
-

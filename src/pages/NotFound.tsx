@@ -9,6 +9,7 @@ export default function NotFound() {
         title="404 - Page Not Found"
         description="The page you're looking for doesn't exist. Browse our catalog of 500,000+ Amatom aerospace and industrial parts."
         canonical="https://asap-amatom.com/404"
+        noIndex={true}
       />
       <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-6xl font-bold mb-4">404</h1>

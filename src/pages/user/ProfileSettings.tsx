@@ -39,6 +39,7 @@ export default function ProfileSettings() {
       <SEO
         title="Profile Settings - ASAP-Amatom.com"
         description="Manage your account settings and preferences"
+        canonical="https://asap-amatom.com/dashboard/settings"
       />
 
       <div className="container mx-auto px-4 py-8 max-w-2xl">

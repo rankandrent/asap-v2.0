@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canonical Tag Testing Tool</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 { font-size: 28px; margin-bottom: 10px; }
+    .header p { opacity: 0.9; font-size: 14px; }
+    .content { padding: 30px; }
+    .section {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      color: #667eea;
+      font-size: 20px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .test-urls {
+      display: grid;
+      gap: 10px;
+    }
+    .url-item {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 6px;
+      padding: 15px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .url-item:hover {
+      border-color: #667eea;
+      transform: translateX(5px);
+    }
+    .url-item strong {
+      color: #667eea;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .url-item code {
+      background: #f8f9fa;
+      padding: 8px 12px;
+      border-radius: 4px;
+      display: block;
+      font-size: 13px;
+      color: #495057;
+      word-break: break-all;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .status.success { background: #d4edda; color: #155724; }
+    .status.error { background: #f8d7da; color: #721c24; }
+    .status.pending { background: #fff3cd; color: #856404; }
+    .console-box {
+      background: #1e1e1e;
+      color: #00ff00;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+    .console-box pre { margin: 0; color: #00ff00; }
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .icon { font-size: 20px; }
+    .result {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+    .result.show { display: block; }
+    .result.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .result.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔍 Canonical Tag Testing Tool</h1>
+      <p>Verify dynamic canonical tags are working correctly on your React website</p>
+    </div>
+
+    <div class="content">
+      <!-- Current Page Test -->
+      <div class="section">
+        <h2><span class="icon">🎯</span> Test Current Page</h2>
+        <p style="margin-bottom: 15px; color: #6c757d;">
+          Click the button to check the canonical tag on the current page:
+        </p>
+        <button class="btn" onclick="testCurrentPage()">
+          Test Canonical Tag
+        </button>
+        <div id="currentResult" class="result"></div>
+      </div>
+
+      <!-- Test URLs List -->
+      <div class="section">
+        <h2><span class="icon">📋</span> Test URLs</h2>
+        <p style="margin-bottom: 15px; color: #6c757d;">
+          Open these URLs in your browser and verify the canonical tag:
+        </p>
+        <div class="test-urls">
+          <div class="url-item">
+            <strong>Homepage</strong>
+            <code>http://localhost:5173/</code>
+            <div class="status pending">Expected: https://asap-amatom.com/</div>
+          </div>
+          <div class="url-item">
+            <strong>Category Page</strong>
+            <code>http://localhost:5173/categories/standoffs</code>
+            <div class="status pending">Expected: https://asap-amatom.com/categories/standoffs</div>
+          </div>
+          <div class="url-item">
+            <strong>Subcategory Page</strong>
+            <code>http://localhost:5173/categories/standoffs/brass-standoffs</code>
+            <div class="status pending">Expected: https://asap-amatom.com/categories/standoffs/brass-standoffs</div>
+          </div>
+          <div class="url-item">
+            <strong>Part Detail Page</strong>
+            <code>http://localhost:5173/parts/11569-A-0632-10</code>
+            <div class="status pending">Expected: https://asap-amatom.com/parts/11569-A-0632-10</div>
+          </div>
+          <div class="url-item">
+            <strong>Search Page</strong>
+            <code>http://localhost:5173/search?q=standoff</code>
+            <div class="status pending">Expected: https://asap-amatom.com/search</div>
+          </div>
+          <div class="url-item">
+            <strong>About Us Page</strong>
+            <code>http://localhost:5173/about-us</code>
+            <div class="status pending">Expected: https://asap-amatom.com/about-us</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Browser Console Commands -->
+      <div class="section">
+        <h2><span class="icon">💻</span> Browser Console Commands</h2>
+        <p style="margin-bottom: 15px; color: #6c757d;">
+          Run these commands in your browser's DevTools Console (F12):
+        </p>
+        <div class="console-box">
+<pre>// Check canonical tag
+document.querySelector('link[rel="canonical"]').href
+
+// Check Open Graph URL
+document.querySelector('meta[property="og:url"]').content
+
+// Check all meta tags
+Array.from(document.querySelectorAll('meta')).map(m => ({
+  name: m.getAttribute('name') || m.getAttribute('property'),
+  content: m.getAttribute('content')
+}))</pre>
+        </div>
+      </div>
+
+      <!-- Production URLs -->
+      <div class="section">
+        <h2><span class="icon">🌐</span> Production URLs</h2>
+        <p style="margin-bottom: 15px; color: #6c757d;">
+          Test on production (after deployment):
+        </p>
+        <div class="console-box">
+<pre># Test with curl
+curl -s https://asap-amatom.com/parts/11569-A-0632-10 | grep canonical
+
+# Test multiple pages
+curl -s https://asap-amatom.com/ | grep canonical
+curl -s https://asap-amatom.com/categories/standoffs | grep canonical
+curl -s https://asap-amatom.com/about-us | grep canonical</pre>
+        </div>
+      </div>
+
+      <!-- Expected vs Before -->
+      <div class="section">
+        <h2><span class="icon">✅</span> Before vs After</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #667eea; color: white;">
+              <th style="padding: 12px; text-align: left;">Page</th>
+              <th style="padding: 12px; text-align: left;">❌ Before (Wrong)</th>
+              <th style="padding: 12px; text-align: left;">✅ After (Correct)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e9ecef;">
+              <td style="padding: 12px;">Homepage</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px;">asap-amatom.com/</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #28a745;">asap-amatom.com/</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e9ecef; background: #f8f9fa;">
+              <td style="padding: 12px;">Category</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #dc3545;">asap-amatom.com/ ❌</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #28a745;">asap-amatom.com/categories/standoffs ✅</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e9ecef;">
+              <td style="padding: 12px;">Part Detail</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #dc3545;">asap-amatom.com/ ❌</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #28a745;">asap-amatom.com/parts/ABC-123 ✅</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e9ecef; background: #f8f9fa;">
+              <td style="padding: 12px;">Search</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #dc3545;">asap-amatom.com/ ❌</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #28a745;">asap-amatom.com/search ✅</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px;">About Us</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #dc3545;">asap-amatom.com/ ❌</td>
+              <td style="padding: 12px; font-family: monospace; font-size: 11px; color: #28a745;">asap-amatom.com/about-us ✅</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function testCurrentPage() {
+      const resultDiv = document.getElementById('currentResult');
+      const canonical = document.querySelector('link[rel="canonical"]');
+      
+      if (!canonical) {
+        resultDiv.className = 'result error show';
+        resultDiv.innerHTML = '❌ <strong>Error:</strong> No canonical tag found on this page!';
+        return;
+      }
+
+      const canonicalUrl = canonical.href;
+      const currentPath = window.location.pathname;
+      const expectedUrl = `https://asap-amatom.com${currentPath === '/' ? '/' : currentPath}`;
+      
+      if (canonicalUrl === expectedUrl) {
+        resultDiv.className = 'result success show';
+        resultDiv.innerHTML = `
+          ✅ <strong>Success!</strong><br>
+          <strong>Found:</strong> ${canonicalUrl}<br>
+          <strong>Expected:</strong> ${expectedUrl}<br>
+          <br>
+          <em>Canonical tag is correct! 🎉</em>
+        `;
+      } else {
+        resultDiv.className = 'result error show';
+        resultDiv.innerHTML = `
+          ❌ <strong>Mismatch!</strong><br>
+          <strong>Found:</strong> ${canonicalUrl}<br>
+          <strong>Expected:</strong> ${expectedUrl}<br>
+          <br>
+          <em>Please check your SEO component configuration.</em>
+        `;
+      }
+    }
+
+    // Auto-test on load if not on this test page
+    window.addEventListener('load', () => {
+      if (!window.location.pathname.includes('test-canonical')) {
+        setTimeout(testCurrentPage, 1000);
+      }
+    });
+  </script>
+</body>
+</html>
+

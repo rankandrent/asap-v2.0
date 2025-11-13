@@ -44,6 +44,7 @@ export default function OrderHistory() {
       <SEO
         title="Order History - ASAP-Amatom.com"
         description="View all your past orders and track shipments"
+        canonical="https://asap-amatom.com/dashboard/orders"
       />
 
       <div className="container mx-auto px-4 py-8">

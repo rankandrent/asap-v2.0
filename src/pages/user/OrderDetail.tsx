@@ -42,14 +42,21 @@ export default function OrderDetail() {
 
   if (!order) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold mb-4">Order Not Found</h2>
-          <Link to="/dashboard/orders">
-            <Button>Back to Orders</Button>
-          </Link>
+      <>
+        <SEO
+          title="Order Not Found - ASAP-Amatom.com"
+          description="The requested order could not be found"
+          canonical={`https://asap-amatom.com/dashboard/orders/${orderId}`}
+        />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold mb-4">Order Not Found</h2>
+            <Link to="/dashboard/orders">
+              <Button>Back to Orders</Button>
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 
@@ -58,6 +65,7 @@ export default function OrderDetail() {
       <SEO
         title={`Order #${order.order_number} - ASAP-Amatom.com`}
         description={`Track your order #${order.order_number}`}
+        canonical={`https://asap-amatom.com/dashboard/orders/${orderId}`}
       />
 
       <div className="container mx-auto px-4 py-8">

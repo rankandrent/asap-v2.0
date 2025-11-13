@@ -1,2 +1,13 @@
+# Netlify Redirects for SPA
+
+# Redirect all requests to index.html for client-side routing
+# 200 = rewrite (not redirect), preserves URL
 /*    /index.html   200
 
+# Prerender hint for Netlify (helps with SEO)
+# Tell Netlify these are important pages to prerender
+/                                200
+/categories/*                    200
+/parts/*                         200
+/search                          200
+/about-us                        200
