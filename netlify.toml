@@ -3,26 +3,10 @@
   to = "/index.html"
   status = 200
 
-# Sitemap redirects - route XML files to Netlify Functions
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/.netlify/functions/sitemap"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*.xml"
-  to = "/.netlify/functions/sitemap/:splat"
-  status = 200
-  force = true
-
 [build]
   command = "npm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "18"
-
-[functions]
-  node_bundler = "esbuild"
 

@@ -8,10 +8,10 @@ export default function AboutUsPage() {
     "@type": "Organization",
     "name": "ASAP-Amatom.com",
     "description": "Solution-based system integrator offering custom-procurement, distribution, logistics, and project management solutions",
-    "url": "https://asapamatom.netlify.app",
+    "url": "https://asap-amatom.com",
     "telephone": "+1-714-705-4780",
-    "email": "quotes@asapamatom.netlify.app",
-    "logo": "https://asapamatom.netlify.app/logo.png",
+    "email": "quotes@asap-amatom.com",
+    "logo": "https://asap-amatom.com/logo.png",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "US"
@@ -24,7 +24,7 @@ export default function AboutUsPage() {
       <SEO
         title="About Us - ASAP-Amatom.com | Our Story & Services"
         description="ASAP Semiconductor is a solution-based system integrator offering custom-procurement, distribution, logistics, and project management solutions to Fortune 100 companies, FAA operators, DoD, OEMs, and more."
-        canonical="https://asapamatom.netlify.app/about-us"
+        canonical="https://asap-amatom.com/about-us"
         keywords="about ASAP Semiconductor, aerospace parts distributor, defense contractor, logistics solutions, procurement services, FAA certified supplier"
         schema={organizationSchema}
       />
@@ -186,7 +186,7 @@ export default function AboutUsPage() {
                   📞 Call: +1 (714) 705-4780
                 </a>
                 <a
-                  href="mailto:quotes@asapamatom.netlify.app"
+                  href="mailto:quotes@asap-amatom.com"
                   className="inline-flex items-center justify-center px-8 py-4 bg-blue-800 text-white font-bold rounded-lg hover:bg-blue-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 border-2 border-white/30"
                 >
                   📧 Email Us

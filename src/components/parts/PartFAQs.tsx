@@ -139,8 +139,8 @@ export default function PartFAQs({ part }: PartFAQsProps) {
             <div className="flex flex-wrap gap-4 text-sm">
               <div>
                 <span className="font-medium text-blue-900">📧 Email:</span>{' '}
-                <a href="mailto:support@asapamatom.netlify.app" className="text-blue-600 hover:underline">
-                  support@asapamatom.netlify.app
+                <a href="mailto:support@asap-amatom.com" className="text-blue-600 hover:underline">
+                  support@asap-amatom.com
                 </a>
               </div>
               <div>

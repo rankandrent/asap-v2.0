@@ -75,7 +75,7 @@ export default function Dashboard() {
       <SEO
         title="My Dashboard - ASAP-Amatom.com"
         description="View your order history, track shipments, and manage your account."
-        canonical="https://asapamatom.netlify.app/dashboard"
+        canonical="https://asap-amatom.com/dashboard"
       />
 
       <div className="container mx-auto px-4 py-8">

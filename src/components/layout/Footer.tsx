@@ -55,11 +55,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:quotes@asapamatom.netlify.app" className="hover:text-primary transition-colors">
-                  quotes@asapamatom.netlify.app
+                <a href="mailto:quotes@asap-amatom.com" className="hover:text-primary transition-colors">
+                  quotes@asap-amatom.com
                 </a>
               </li>
-              <li>Website: asapamatom.netlify.app</li>
+              <li>Website: asap-amatom.com</li>
             </ul>
           </div>
         </div>

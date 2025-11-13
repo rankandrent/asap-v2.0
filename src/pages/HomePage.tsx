@@ -26,8 +26,8 @@ export default function HomePage() {
     "@type": "Organization",
     "name": "ASAP-Amatom.com",
     "description": "Official Amatom Parts Catalog - 500,000+ aerospace and industrial parts",
-    "url": "https://asapamatom.netlify.app",
-    "logo": "https://asapamatom.netlify.app/logo.png",
+    "url": "https://asap-amatom.com",
+    "logo": "https://asap-amatom.com/logo.png",
     "sameAs": []
   }
 
@@ -36,10 +36,10 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "ASAP-Amatom.com",
-    "url": "https://asapamatom.netlify.app",
+    "url": "https://asap-amatom.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://asapamatom.netlify.app/search?q={search_term_string}",
+      "target": "https://asap-amatom.com/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -54,7 +54,7 @@ export default function HomePage() {
       <SEO
         title="ASAP-Amatom.com - Official Amatom Parts Catalog | 500,000+ Parts"
         description="Browse complete catalog of Amatom aerospace and industrial parts. 500,000+ parts across multiple categories including Standoffs, Fasteners, and more. Official Amatom manufacturer parts."
-        canonical="https://asapamatom.netlify.app/"
+        canonical="https://asap-amatom.com/"
         keywords="Amatom parts, aerospace parts, industrial parts, standoffs, fasteners, Amatom catalog, aviation parts, 500000 parts"
         schema={combinedSchema}
       />
@@ -459,8 +459,8 @@ export default function HomePage() {
                 <div className="text-center p-6 bg-white rounded-lg shadow-md">
                   <div className="text-3xl mb-3">📧</div>
                   <h3 className="font-bold text-gray-900 mb-2">Email</h3>
-                  <a href="mailto:quotes@asapamatom.netlify.app" className="text-blue-600 hover:underline font-semibold text-sm">
-                    quotes@asapamatom.netlify.app
+                  <a href="mailto:quotes@asap-amatom.com" className="text-blue-600 hover:underline font-semibold text-sm">
+                    quotes@asap-amatom.com
                   </a>
                   <p className="text-sm text-gray-600 mt-2">Quick Response</p>
                 </div>

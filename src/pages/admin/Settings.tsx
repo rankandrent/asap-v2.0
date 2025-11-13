@@ -19,7 +19,7 @@ export default function Settings() {
     openaiKey: "sk-••••••••••••••••••••••••••••",
     supabaseUrl: "https://ncsxlqpwiaixnsvjtlgc.supabase.co",
     supabaseKey: "eyJhbGci••••••••••••••••••",
-    siteUrl: "https://asapamatom.netlify.app",
+    siteUrl: "https://asap-amatom.com",
     emailNotifications: true,
     autoPublish: false,
     backupEnabled: true
@@ -169,7 +169,7 @@ export default function Settings() {
               type="url"
               value={settings.siteUrl}
               onChange={(e) => setSettings({ ...settings, siteUrl: e.target.value })}
-              placeholder="https://asapamatom.netlify.app"
+              placeholder="https://asap-amatom.com"
             />
           </div>
         </CardContent>

@@ -258,7 +258,7 @@ export default function AISmartChatbot() {
       console.error('Chat error:', error)
       addBotMessage(
         "I apologize for the technical difficulty. Let me connect you with our team directly:\n\n" +
-        "📧 Email: quotes@asapamatom.netlify.app\n" +
+        "📧 Email: quotes@asap-amatom.com\n" +
         "📞 Phone: +1 (714) 705-4780\n\n" +
         "Or try asking your question again?"
       )
@@ -302,7 +302,7 @@ export default function AISmartChatbot() {
       )
     } catch (error) {
       addBotMessage(
-        "There was an issue submitting your request. Please email us directly at quotes@asapamatom.netlify.app or call +1 (714) 705-4780."
+        "There was an issue submitting your request. Please email us directly at quotes@asap-amatom.com or call +1 (714) 705-4780."
       )
     }
   }

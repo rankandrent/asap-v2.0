@@ -40,7 +40,7 @@ export default function SubcategoryPage() {
           <SEO
             title="Subcategory Not Found"
             description="The subcategory you're looking for doesn't exist."
-            canonical={`https://asapamatom.netlify.app/categories/${categorySlug}/${subcategorySlug}`}
+            canonical={`https://asap-amatom.com/categories/${categorySlug}/${subcategorySlug}`}
           />
           <div className="container mx-auto px-4 py-8">
             <p>Subcategory not found.</p>
@@ -70,7 +70,7 @@ export default function SubcategoryPage() {
             "@type": "Product",
             "name": part.productname,
             "description": part.description,
-            "url": `https://asapamatom.netlify.app/parts/${encodeURIComponent(part.productname)}`
+            "url": `https://asap-amatom.com/parts/${encodeURIComponent(part.productname)}`
           }
         }))
       : []
@@ -81,7 +81,7 @@ export default function SubcategoryPage() {
       <SEO
         title={subcategoryTitle}
         description={subcategoryDescription}
-        canonical={`https://asapamatom.netlify.app/categories/${categorySlug}/${subcategorySlug}`}
+        canonical={`https://asap-amatom.com/categories/${categorySlug}/${subcategorySlug}`}
         keywords={subcategoryKeywords}
         schema={itemListSchema}
       />

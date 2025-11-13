@@ -46,7 +46,7 @@ export default function SearchPage() {
       <SEO
         title={searchTitle}
         description={searchDescription}
-        canonical={`https://asapamatom.netlify.app/search${query ? `?q=${encodeURIComponent(query)}` : ''}`}
+        canonical={`https://asap-amatom.com/search${query ? `?q=${encodeURIComponent(query)}` : ''}`}
         keywords={query ? `${query}, Amatom ${query}, search ${query} parts` : "search parts, Amatom search, find parts"}
       />
 

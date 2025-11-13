@@ -40,7 +40,7 @@ export default function CategoryPage() {
         <SEO
           title="Category Not Found"
           description="The category you're looking for doesn't exist."
-          canonical={`https://asapamatom.netlify.app/categories/${categorySlug}`}
+          canonical={`https://asap-amatom.com/categories/${categorySlug}`}
         />
         <div className="container mx-auto px-4 py-8">
           <p>Category not found.</p>
@@ -59,7 +59,7 @@ export default function CategoryPage() {
     "@type": "CollectionPage",
     "name": category?.name,
     "description": categoryDescription,
-    "url": `https://asapamatom.netlify.app/categories/${categorySlug}`,
+    "url": `https://asap-amatom.com/categories/${categorySlug}`,
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -67,13 +67,13 @@ export default function CategoryPage() {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://asapamatom.netlify.app"
+          "item": "https://asap-amatom.com"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": category?.name,
-          "item": `https://asapamatom.netlify.app/categories/${categorySlug}`
+          "item": `https://asap-amatom.com/categories/${categorySlug}`
         }
       ]
     }
@@ -84,7 +84,7 @@ export default function CategoryPage() {
       <SEO
         title={categoryTitle}
         description={categoryDescription}
-        canonical={`https://asapamatom.netlify.app/categories/${categorySlug}`}
+        canonical={`https://asap-amatom.com/categories/${categorySlug}`}
         keywords={categoryKeywords}
         schema={collectionSchema}
       />
