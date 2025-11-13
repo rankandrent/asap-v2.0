@@ -66,7 +66,7 @@ export default function SignUp() {
   if (success) {
     return (
       <>
-        <SEO title="Sign Up Success - ASAPAmatom.com" description="Your account has been created successfully. Check your email to verify your account." />
+        <SEO title="Sign Up Success - ASAP-Amatom.com" description="Your account has been created successfully. Check your email to verify your account." />
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-emerald-50 py-12 px-4">
           <Card className="max-w-md w-full">
             <CardContent className="pt-6 text-center">
@@ -75,7 +75,7 @@ export default function SignUp() {
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Account Created!</h2>
               <p className="text-gray-600 mb-4">
-                Welcome to ASAPAmatom! Check your email to verify your account.
+                Welcome to ASAP-Amatom! Check your email to verify your account.
               </p>
               <p className="text-sm text-gray-500">
                 Redirecting to dashboard...
@@ -90,8 +90,8 @@ export default function SignUp() {
   return (
     <>
       <SEO
-        title="Sign Up - Create Account | ASAPAmatom.com"
-        description="Create your free ASAPAmatom account to track orders, save time on checkout, and get personalized recommendations."
+        title="Sign Up - Create Account | ASAP-Amatom.com"
+        description="Create your free ASAP-Amatom account to track orders, save time on checkout, and get personalized recommendations."
         canonical="https://asapamatom.netlify.app/auth/signup"
       />
 

@@ -147,7 +147,7 @@ export default function BulkRFQModal({ isOpen, onClose }: BulkRFQModalProps) {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+1 (714) 705-4780"
                         required
                       />
                     </div>

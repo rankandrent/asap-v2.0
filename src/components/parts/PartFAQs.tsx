@@ -33,7 +33,7 @@ export default function PartFAQs({ part }: PartFAQsProps) {
     },
     {
       question: `How do I order ${part.productname}?`,
-      answer: `Ordering ${part.productname} is easy! You can request a quote directly from this page using the RFQ form. Simply provide your contact information and quantity needed. Our sales team will respond within 24 hours with pricing, availability, and delivery options. For urgent orders, call us directly at (555) 000-0000.`
+      answer: `Ordering ${part.productname} is easy! You can request a quote directly from this page using the RFQ form. Simply provide your contact information and quantity needed. Our sales team will respond within 24 hours with pricing, availability, and delivery options. For urgent orders, call us directly at +1 (714) 705-4780.`
     },
     {
       question: `What is the lead time for ${part.productname}?`,
@@ -145,8 +145,8 @@ export default function PartFAQs({ part }: PartFAQsProps) {
               </div>
               <div>
                 <span className="font-medium text-blue-900">📞 Phone:</span>{' '}
-                <a href="tel:+15550000000" className="text-blue-600 hover:underline">
-                  (555) 000-0000
+                <a href="tel:+17147054780" className="text-blue-600 hover:underline">
+                  +1 (714) 705-4780
                 </a>
               </div>
               <div>

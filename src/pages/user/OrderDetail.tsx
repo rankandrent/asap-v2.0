@@ -56,7 +56,7 @@ export default function OrderDetail() {
   return (
     <>
       <SEO
-        title={`Order #${order.order_number} - ASAPAmatom.com`}
+        title={`Order #${order.order_number} - ASAP-Amatom.com`}
         description={`Track your order #${order.order_number}`}
       />
 

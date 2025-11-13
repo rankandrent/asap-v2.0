@@ -49,7 +49,7 @@ export default function DashboardLayout() {
               {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
             <h1 className="text-xl font-bold text-gray-900">
-              ASAPAmatom Admin
+              ASAP-Amatom Admin
             </h1>
           </div>
           <div className="flex items-center gap-4">

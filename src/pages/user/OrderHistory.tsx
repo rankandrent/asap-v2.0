@@ -42,7 +42,7 @@ export default function OrderHistory() {
   return (
     <>
       <SEO
-        title="Order History - ASAPAmatom.com"
+        title="Order History - ASAP-Amatom.com"
         description="View all your past orders and track shipments"
       />
 

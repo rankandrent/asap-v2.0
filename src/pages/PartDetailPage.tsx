@@ -58,7 +58,7 @@ export default function PartDetailPage() {
 
   // Generate SEO-optimized content
   const partTitle = `${part.productname} - ${part.description} | Amatom Parts`
-  const partDescription = `Buy ${part.productname} from Amatom. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Status: ${part.availability_status}.` : ''} Official ASAPAmatom.com catalog.`
+  const partDescription = `Buy ${part.productname} from Amatom. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Status: ${part.availability_status}.` : ''} Official ASAP-Amatom.com catalog.`
   const partKeywords = `${part.productname}, Amatom, ${part.category}, ${part.sub_category}, ${part.manufacturer}, aerospace parts, industrial parts`
   const canonical = `https://asapamatom.netlify.app/parts/${encodeURIComponent(part.productname)}`
   const imageUrl = part.images && part.images.length > 0 ? part.images[0] : 'https://asapamatom.netlify.app/og-image.jpg'
@@ -84,7 +84,7 @@ export default function PartDetailPage() {
       "url": canonical,
       "seller": {
         "@type": "Organization",
-        "name": "ASAPAmatom.com"
+        "name": "ASAP-Amatom.com"
       }
     },
     ...(part.images && part.images.length > 0 && {

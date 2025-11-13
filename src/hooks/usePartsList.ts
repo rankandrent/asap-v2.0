@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getPartsBySubcategory } from '../lib/queries'
 import type { Part } from '../types/part'
+import { useManufacturerContext } from '../contexts/ManufacturerContext'
 
 export interface PartsListResponse {
   parts: Part[]
@@ -12,10 +13,17 @@ export const usePartsList = (
   subcategory: string,
   page: number
 ) => {
+  const { selectedManufacturer } = useManufacturerContext()
+  
   return useQuery<PartsListResponse>({
-    queryKey: ['parts', category, subcategory, page],
-    queryFn: () => getPartsBySubcategory(category, subcategory, page),
-    enabled: !!category && !!subcategory,
+    queryKey: ['parts', category, subcategory, selectedManufacturer, page],
+    queryFn: () => {
+      if (!selectedManufacturer) {
+        throw new Error('No manufacturer selected')
+      }
+      return getPartsBySubcategory(category, subcategory, selectedManufacturer, page)
+    },
+    enabled: !!category && !!subcategory && !!selectedManufacturer,
     placeholderData: (previousData) => previousData,
     staleTime: 2 * 60 * 1000, // 2 minutes
   })

@@ -189,7 +189,7 @@ export default function AIChatbot() {
       )
     } catch (error) {
       addBotMessage(
-        "❌ Oops! Something went wrong. Let me help you another way:\n\n1. Call us: (555) 000-0000\n2. Email: quotes@asapamatom.netlify.app\n3. Or try again",
+        "❌ Oops! Something went wrong. Let me help you another way:\n\n1. Call us: +1 (714) 705-4780\n2. Email: quotes@asapamatom.netlify.app\n3. Or try again",
         ['Try again', 'Close chat']
       )
     }

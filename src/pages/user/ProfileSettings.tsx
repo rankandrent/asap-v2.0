@@ -37,7 +37,7 @@ export default function ProfileSettings() {
   return (
     <>
       <SEO
-        title="Profile Settings - ASAPAmatom.com"
+        title="Profile Settings - ASAP-Amatom.com"
         description="Manage your account settings and preferences"
       />
 

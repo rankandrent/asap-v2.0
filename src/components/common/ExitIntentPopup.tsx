@@ -237,7 +237,7 @@ export default function ExitIntentPopup() {
                       type="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      placeholder="+1 (555) 000-0000"
+                      placeholder="+1 (714) 705-4780"
                       className="pl-9"
                     />
                   </div>

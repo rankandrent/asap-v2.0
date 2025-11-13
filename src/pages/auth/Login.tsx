@@ -37,8 +37,8 @@ export default function Login() {
   return (
     <>
       <SEO
-        title="Login - ASAPAmatom.com"
-        description="Sign in to your ASAPAmatom account to track orders, view order history, and manage your profile."
+        title="Login - ASAP-Amatom.com"
+        description="Sign in to your ASAP-Amatom account to track orders, view order history, and manage your profile."
         canonical="https://asapamatom.netlify.app/auth/login"
       />
 
@@ -50,7 +50,7 @@ export default function Login() {
               <LogIn className="h-8 w-8" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-            <p className="mt-2 text-gray-600">Sign in to your ASAPAmatom account</p>
+            <p className="mt-2 text-gray-600">Sign in to your ASAP-Amatom account</p>
           </div>
 
           {/* Login Card */}

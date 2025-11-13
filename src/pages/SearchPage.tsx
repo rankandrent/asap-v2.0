@@ -6,16 +6,23 @@ import PartCard from "../components/parts/PartCard"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import SEO from "../components/common/SEO"
 import type { Part } from "../types/part"
+import { useManufacturerContext } from "../contexts/ManufacturerContext"
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get("q") || ""
   const [searchQuery, setSearchQuery] = useState(query)
+  const { selectedManufacturer } = useManufacturerContext()
 
   const { data: parts, isLoading } = useQuery<Part[]>({
-    queryKey: ["search", query],
-    queryFn: () => searchParts(query),
-    enabled: !!query,
+    queryKey: ["search", query, selectedManufacturer],
+    queryFn: () => {
+      if (!selectedManufacturer) {
+        throw new Error('No manufacturer selected')
+      }
+      return searchParts(query, selectedManufacturer)
+    },
+    enabled: !!query && !!selectedManufacturer,
   })
 
   useEffect(() => {
@@ -29,7 +36,7 @@ export default function SearchPage() {
     }
   }
 
-  const searchTitle = query ? `Search Results for "${query}" | ASAPAmatom.com` : "Search Parts | ASAPAmatom.com"
+  const searchTitle = query ? `Search Results for "${query}" | ASAP-Amatom.com` : "Search Parts | ASAP-Amatom.com"
   const searchDescription = query 
     ? `Search results for "${query}" in Amatom parts catalog. Found ${parts?.length || 0} matching parts. Browse aerospace and industrial parts from official Amatom manufacturer.`
     : "Search 500,000+ Amatom aerospace and industrial parts. Find specifications, pricing, and availability for standoffs, fasteners, and more."

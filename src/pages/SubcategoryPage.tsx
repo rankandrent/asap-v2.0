@@ -52,7 +52,7 @@ export default function SubcategoryPage() {
 
   const subcategoryTitle = `${subcategory?.name || "Subcategory"} - ${category?.name || "Category"} | Amatom Parts`
   const partCount = partsData && 'total' in partsData ? partsData.total : 0
-  const subcategoryDescription = `Shop ${subcategory?.name || "subcategory"} from Amatom manufacturer. Complete catalog of ${partCount.toLocaleString()} ${subcategory?.name} parts. Browse specifications, pricing, and availability. Category: ${category?.name}. Official ASAPAmatom.com.`
+  const subcategoryDescription = `Shop ${subcategory?.name || "subcategory"} from Amatom manufacturer. Complete catalog of ${partCount.toLocaleString()} ${subcategory?.name} parts. Browse specifications, pricing, and availability. Category: ${category?.name}. Official ASAP-Amatom.com.`
   const subcategoryKeywords = `${subcategory?.name}, ${category?.name}, Amatom ${subcategory?.name}, ${subcategory?.name} parts, buy ${subcategory?.name}`
 
   // ItemList Schema for product listing

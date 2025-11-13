@@ -1,15 +1,36 @@
+import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useCategories } from "../hooks/useCategories"
 import { useSubcategories } from "../hooks/useSubcategories"
+import { useManufacturerContext } from "../contexts/ManufacturerContext"
 import SubcategoryList from "../components/categories/SubcategoryList"
 import Breadcrumb from "../components/layout/Breadcrumb"
-import LoadingSpinner from "../components/common/LoadingSpinner"
 import SEO from "../components/common/SEO"
 
 export default function CategoryPage() {
   const { categorySlug } = useParams<{ categorySlug: string }>()
-  const { data: categories } = useCategories()
-  const { data: subcategories, isLoading } = useSubcategories(categorySlug || "")
+  const { selectedManufacturer } = useManufacturerContext()
+  const { data: categories, isLoading: isLoadingCategories, error: categoriesError } = useCategories()
+  const { data: subcategories, isLoading: isLoadingSubcategories, error: subcategoriesError } = useSubcategories(categorySlug || "")
+  
+  const isLoading = isLoadingCategories || isLoadingSubcategories
+  const error = categoriesError || subcategoriesError
+
+  // Debug logging
+  useEffect(() => {
+    console.log('📊 CategoryPage: State:', {
+      categorySlug,
+      selectedManufacturer,
+      isLoadingCategories,
+      isLoadingSubcategories,
+      categoriesCount: categories?.length || 0,
+      categories: categories?.map(c => `${c.name} (${c.subcategoryCount} subcats)`),
+      subcategoriesCount: subcategories?.length || 0,
+      subcategories: subcategories?.map(s => `${s.name} (${s.partCount} parts)`),
+      categoriesError: categoriesError?.message,
+      subcategoriesError: subcategoriesError?.message,
+    })
+  }, [categorySlug, selectedManufacturer, isLoadingCategories, isLoadingSubcategories, categories, subcategories, categoriesError, subcategoriesError])
 
   const category = categories?.find((c) => c.slug === categorySlug)
 
@@ -28,7 +49,7 @@ export default function CategoryPage() {
     )
   }
 
-  const categoryTitle = `${category?.name || "Category"} - Amatom Parts | ASAPAmatom.com`
+  const categoryTitle = `${category?.name || "Category"} - Amatom Parts | ASAP-Amatom.com`
   const categoryDescription = `Browse all ${category?.name || "category"} parts from Amatom manufacturer. ${subcategories?.length || 0} subcategories available. Find specifications, pricing, and availability for aerospace and industrial ${category?.name} parts.`
   const categoryKeywords = `${category?.name}, Amatom ${category?.name}, ${category?.name} parts, aerospace ${category?.name}, industrial ${category?.name}`
 
@@ -83,14 +104,12 @@ export default function CategoryPage() {
           </p>
         </div>
 
-        {isLoading ? (
-          <LoadingSpinner size="lg" />
-        ) : (
-          <SubcategoryList
-            subcategories={subcategories || []}
-            categorySlug={categorySlug || ""}
-          />
-        )}
+        <SubcategoryList
+          subcategories={subcategories || []}
+          categorySlug={categorySlug || ""}
+          isLoading={isLoading}
+          error={error as Error | null}
+        />
       </div>
     </>
   )

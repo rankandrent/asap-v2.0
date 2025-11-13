@@ -1,24 +1,43 @@
 import { Link } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import type { Subcategory } from "../../types/part"
-import LoadingSpinner from "../common/LoadingSpinner"
+import { SubcategoryListSkeleton } from "../common/SkeletonLoader"
 import { Package } from "lucide-react"
 
 interface SubcategoryListProps {
   subcategories: Subcategory[]
   categorySlug: string
   isLoading?: boolean
+  error?: Error | null
 }
 
 export default function SubcategoryList({
   subcategories,
   categorySlug,
   isLoading,
+  error,
 }: SubcategoryListProps) {
   if (isLoading) {
     return (
-      <div className="py-12">
-        <LoadingSpinner size="lg" />
+      <div className="py-8">
+        <SubcategoryListSkeleton count={6} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <h3 className="text-xl font-semibold mb-2 text-yellow-800">Unable to Load Subcategories</h3>
+        <p className="text-muted-foreground mb-4">
+          There was an error loading subcategories. Please try refreshing the page.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Refresh Page
+        </button>
       </div>
     )
   }

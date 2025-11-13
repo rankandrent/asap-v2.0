@@ -55,7 +55,7 @@ export const generateChatResponse = async (
 }
 
 function buildSystemPrompt(partInfo?: PartInfo): string {
-  let prompt = `You are a helpful sales assistant for ASAPAmatom.com, a supplier of aerospace and industrial parts. 
+  let prompt = `You are a helpful sales assistant for ASAP-Amatom.com, a supplier of aerospace and industrial parts. 
 
 Your goals:
 1. Help customers find the parts they need

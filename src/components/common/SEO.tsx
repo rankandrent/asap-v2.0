@@ -19,7 +19,7 @@ export default function SEO({
   schema,
   keywords,
 }: SEOProps) {
-  const siteName = "ASAPAmatom.com"
+  const siteName = "ASAP-Amatom.com"
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`
 
   return (

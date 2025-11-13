@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://www.asapamatom.com/sitemap-standoffs-steel-standoffs.xml</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-page.xml</loc>
+    <lastmod>2025-11-07</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://www.asapamatom.com/sitemap-standoffs-brass-standoffs.xml</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-steel-standoffs-1.xml</loc>
+    <lastmod>2025-11-07</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://www.asapamatom.com/sitemap-standoffs-aluminum-standoffs.xml</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-steel-standoffs-2.xml</loc>
+    <lastmod>2025-11-07</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://www.asapamatom.com/sitemap-standoffs-stainless-steel-standoffs.xml</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-nylon-standoffs.xml</loc>
+    <lastmod>2025-11-07</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://www.asapamatom.com/sitemap-standoffs-page.xml</loc>
-    <lastmod>2025-11-05</lastmod>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-brass-standoffs-1.xml</loc>
+    <lastmod>2025-11-07</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-brass-standoffs-2.xml</loc>
+    <lastmod>2025-11-07</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-brass-standoffs-3.xml</loc>
+    <lastmod>2025-11-07</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-aluminum-standoffs-1.xml</loc>
+    <lastmod>2025-11-07</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-aluminum-standoffs-2.xml</loc>
+    <lastmod>2025-11-07</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-aluminum-standoffs-3.xml</loc>
+    <lastmod>2025-11-07</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://asapamatom.netlify.app/sitemap-standoffs-stainless-steel-standoffs.xml</loc>
+    <lastmod>2025-11-07</lastmod>
   </sitemap>
 </sitemapindex>

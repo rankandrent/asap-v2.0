@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HelmetProvider } from "react-helmet-async"
 import { AuthProvider } from "./contexts/AuthContext"
+import { ManufacturerProvider } from "./contexts/ManufacturerContext"
 import Header from "./components/layout/Header"
 import Footer from "./components/layout/Footer"
 import AISmartChatbot from "./components/common/AISmartChatbot"
@@ -11,6 +12,7 @@ import CategoryPage from "./pages/CategoryPage"
 import SubcategoryPage from "./pages/SubcategoryPage"
 import PartDetailPage from "./pages/PartDetailPage"
 import SearchPage from "./pages/SearchPage"
+import AboutUsPage from "./pages/AboutUsPage"
 import NotFound from "./pages/NotFound"
 
 // Auth Pages
@@ -39,6 +41,7 @@ function App() {
     <HelmetProvider>
       <BrowserRouter>
         <AuthProvider>
+          <ManufacturerProvider>
           <Routes>
             {/* Auth Routes (No Layout) */}
             <Route path="/auth/login" element={<Login />} />
@@ -131,6 +134,7 @@ function App() {
                       />
                       <Route path="/parts/:productname" element={<PartDetailPage />} />
                       <Route path="/search" element={<SearchPage />} />
+                      <Route path="/about-us" element={<AboutUsPage />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>
@@ -141,6 +145,7 @@ function App() {
               }
             />
           </Routes>
+          </ManufacturerProvider>
         </AuthProvider>
       </BrowserRouter>
     </HelmetProvider>

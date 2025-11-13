@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold text-lg mb-4">ASAPAmatom.com</h3>
+            <h3 className="font-bold text-lg mb-4">ASAP-Amatom.com</h3>
             <p className="text-sm text-muted-foreground">
               Official catalog for Amatom aerospace and industrial parts.
               500,000+ parts available.
@@ -18,6 +18,21 @@ export default function Footer() {
               <li>
                 <Link to="/" className="text-muted-foreground hover:text-primary">
                   Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/about-us" className="text-muted-foreground hover:text-primary">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/categories" className="text-muted-foreground hover:text-primary">
+                  Categories
+                </Link>
+              </li>
+              <li>
+                <Link to="/search" className="text-muted-foreground hover:text-primary">
+                  Search
                 </Link>
               </li>
             </ul>
@@ -33,13 +48,23 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <a href="tel:+17147054780" className="hover:text-primary transition-colors flex items-center gap-2">
+                  <span>📞</span>
+                  <span>+1 (714) 705-4780</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:quotes@asapamatom.netlify.app" className="hover:text-primary transition-colors">
+                  quotes@asapamatom.netlify.app
+                </a>
+              </li>
               <li>Website: asapamatom.netlify.app</li>
-              <li>For inquiries, please contact us</li>
             </ul>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} ASAPAmatom.com. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ASAP-Amatom.com. All rights reserved.</p>
         </div>
       </div>
     </footer>

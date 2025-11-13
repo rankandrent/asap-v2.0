@@ -26,7 +26,7 @@ export default function SEOManager() {
   const pages = [
     { 
       url: "/", 
-      title: "ASAPAmatom.com - Official Amatom Parts Catalog", 
+      title: "ASAP-Amatom.com - Official Amatom Parts Catalog", 
       status: "optimized",
       score: 95 
     },
@@ -112,7 +112,7 @@ export default function SEOManager() {
               Site Title
             </label>
             <Input 
-              defaultValue="ASAPAmatom.com - Official Amatom Parts Catalog"
+              defaultValue="ASAP-Amatom.com - Official Amatom Parts Catalog"
               placeholder="Enter site title"
             />
           </div>

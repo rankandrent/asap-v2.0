@@ -130,12 +130,12 @@ export default function PartDetail({ part }: PartDetailProps) {
               <p className="text-blue-100 text-sm">
                 Our technical team is ready to assist with product selection and specifications.
               </p>
-              <Button variant="secondary" className="w-full bg-white text-blue-600 hover:bg-blue-50">
-                📞 Contact Support
-              </Button>
-              <Button variant="outline" className="w-full border-white text-white hover:bg-blue-700">
-                📄 Download Datasheet
-              </Button>
+              <a 
+                href="tel:+17147054780"
+                className="w-full inline-flex items-center justify-center px-4 py-2 bg-white text-blue-600 hover:bg-blue-50 rounded-md font-medium transition-colors"
+              >
+                📞 Contact Support: +1 (714) 705-4780
+              </a>
             </CardContent>
           </Card>
         </div>

@@ -73,7 +73,7 @@ export default function Dashboard() {
   return (
     <>
       <SEO
-        title="My Dashboard - ASAPAmatom.com"
+        title="My Dashboard - ASAP-Amatom.com"
         description="View your order history, track shipments, and manage your account."
         canonical="https://asapamatom.netlify.app/dashboard"
       />

@@ -14,11 +14,17 @@ interface RelatedPartsProps {
 export default function RelatedParts({ currentPart, limit = 4 }: RelatedPartsProps) {
   const categorySlug = slugify(currentPart.category)
   const subcategorySlug = slugify(currentPart.sub_category)
+  const manufacturer = currentPart.manufacturer // Use manufacturer from current part
 
   const { data, isLoading } = useQuery({
-    queryKey: ["related-parts", categorySlug, subcategorySlug],
-    queryFn: () => getPartsBySubcategory(categorySlug, subcategorySlug, 1, limit + 1),
-    enabled: !!categorySlug && !!subcategorySlug,
+    queryKey: ["related-parts", categorySlug, subcategorySlug, manufacturer],
+    queryFn: () => {
+      if (!manufacturer) {
+        throw new Error('No manufacturer found')
+      }
+      return getPartsBySubcategory(categorySlug, subcategorySlug, manufacturer, 1, limit + 1)
+    },
+    enabled: !!categorySlug && !!subcategorySlug && !!manufacturer,
   })
 
   if (isLoading) {

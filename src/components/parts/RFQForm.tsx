@@ -180,7 +180,7 @@ export default function RFQForm({ part }: RFQFormProps) {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="+1 (714) 705-4780"
                   required
                   className="w-full"
                 />
