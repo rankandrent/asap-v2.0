@@ -271,41 +271,47 @@ curl -s https://asap-amatom.com/about-us | grep canonical</pre>
       
       if (!canonical) {
         resultDiv.className = 'result error show';
-        resultDiv.innerHTML = '❌ <strong>Error:</strong> No canonical tag found on this page!';
+        resultDiv.innerHTML = '❌ <strong>Error:</strong> No canonical tag found on this page!<br><em>React Helmet might not be loaded yet. Wait and try again.</em>';
         return;
       }
 
       const canonicalUrl = canonical.href;
       const currentPath = window.location.pathname;
-      const expectedUrl = `https://asap-amatom.com${currentPath === '/' ? '/' : currentPath}`;
+      const currentPathClean = currentPath.endsWith('/') && currentPath !== '/' 
+        ? currentPath.slice(0, -1) 
+        : currentPath;
+      const expectedUrl = currentPathClean === '/' 
+        ? 'https://asap-amatom.com/' 
+        : `https://asap-amatom.com${currentPathClean}`;
       
-      if (canonicalUrl === expectedUrl) {
-        resultDiv.className = 'result success show';
-        resultDiv.innerHTML = `
-          ✅ <strong>Success!</strong><br>
-          <strong>Found:</strong> ${canonicalUrl}<br>
-          <strong>Expected:</strong> ${expectedUrl}<br>
-          <br>
-          <em>Canonical tag is correct! 🎉</em>
-        `;
-      } else {
-        resultDiv.className = 'result error show';
-        resultDiv.innerHTML = `
-          ❌ <strong>Mismatch!</strong><br>
-          <strong>Found:</strong> ${canonicalUrl}<br>
-          <strong>Expected:</strong> ${expectedUrl}<br>
-          <br>
-          <em>Please check your SEO component configuration.</em>
-        `;
-      }
+      const isCorrect = canonicalUrl === expectedUrl;
+      
+      resultDiv.className = `result ${isCorrect ? 'success' : 'error'} show`;
+      resultDiv.innerHTML = `
+        ${isCorrect ? '✅ <strong>Success!</strong>' : '❌ <strong>Mismatch!</strong>'}<br>
+        <strong>Current URL:</strong> ${window.location.href}<br>
+        <strong>Current Path:</strong> ${currentPath}<br>
+        <strong>Found Canonical:</strong> ${canonicalUrl}<br>
+        <strong>Expected Canonical:</strong> ${expectedUrl}<br>
+        <br>
+        ${isCorrect 
+          ? '<em>✅ Canonical tag is correct! Perfect for SEO! 🎉</em>' 
+          : '<em>❌ Canonical mismatch! Check SEO component.<br>Make sure React Helmet has loaded (wait 2-3 seconds after page load).</em>'}
+      `;
     }
 
-    // Auto-test on load if not on this test page
-    window.addEventListener('load', () => {
-      if (!window.location.pathname.includes('test-canonical')) {
-        setTimeout(testCurrentPage, 1000);
-      }
-    });
+    // Bookmarklet code for easy testing
+    function generateBookmarklet() {
+      const code = `javascript:(function(){const c=document.querySelector('link[rel="canonical"]');const p=window.location.pathname;const e=p==='/'?'https://asap-amatom.com/':'https://asap-amatom.com'+p;alert(c?'Current: '+window.location.href+'\\n\\nCanonical: '+c.href+'\\n\\nExpected: '+e+'\\n\\n'+(c.href===e?'✅ CORRECT':'❌ WRONG'):'❌ No canonical found!');})();`;
+      
+      alert('Drag this link to your bookmarks bar, then click it on any page to test canonical:\\n\\n' + code);
+      
+      const link = document.createElement('a');
+      link.href = code;
+      link.textContent = '📋 Test Canonical';
+      link.style.cssText = 'position:fixed;top:10px;right:10px;z-index:9999;background:red;color:white;padding:10px;border-radius:5px;text-decoration:none;font-weight:bold;';
+      document.body.appendChild(link);
+    }
   </script>
 </body>
 </html>

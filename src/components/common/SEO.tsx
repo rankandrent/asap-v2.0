@@ -54,6 +54,15 @@ export default function SEO({
 
   const canonicalUrl = generateCanonicalUrl()
 
+  // Debug logging (remove in production)
+  if (typeof window !== 'undefined') {
+    console.log('🔍 SEO Component:', {
+      pathname: location.pathname,
+      canonicalUrl,
+      title: fullTitle
+    })
+  }
+
   // Determine robots content
   const robotsContent = noIndex 
     ? "noindex, nofollow" 

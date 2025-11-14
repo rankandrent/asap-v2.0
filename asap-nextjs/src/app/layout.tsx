@@ -8,16 +8,22 @@ import { Providers } from './providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.asapamatom.com'),
+  metadataBase: new URL('https://asap-amatom.com'),
   title: {
-    default: 'ASAPAmatom.com - Official Amatom Parts Catalog | 500,000+ Parts',
-    template: '%s | ASAPAmatom.com'
+    default: 'ASAP-Amatom.com - Official Amatom Parts Catalog | 500,000+ Parts',
+    template: '%s | ASAP-Amatom.com'
   },
   description: 'Browse complete catalog of Amatom aerospace and industrial parts. 500,000+ parts across multiple categories including Standoffs, Fasteners, and more.',
   keywords: ['Amatom parts', 'aerospace parts', 'industrial parts', 'standoffs', 'fasteners', 'aviation parts'],
-  authors: [{ name: 'ASAPAmatom.com' }],
-  creator: 'ASAPAmatom.com',
-  publisher: 'ASAPAmatom.com',
+  authors: [{ name: 'ASAP-Amatom.com' }],
+  creator: 'ASAP-Amatom.com',
+  publisher: 'ASAP-Amatom.com',
+  // Canonical URL - Next.js automatically generates per-page canonical
+  // You can override it in individual page.tsx files using:
+  // export const metadata = { alternates: { canonical: 'your-custom-url' } }
+  alternates: {
+    canonical: '/',
+  },
   robots: {
     index: true,
     follow: true,
@@ -32,14 +38,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.asapamatom.com',
-    title: 'ASAPAmatom.com - Official Amatom Parts Catalog',
+    url: 'https://asap-amatom.com',
+    title: 'ASAP-Amatom.com - Official Amatom Parts Catalog',
     description: 'Browse 500,000+ Amatom aerospace and industrial parts',
-    siteName: 'ASAPAmatom.com',
+    siteName: 'ASAP-Amatom.com',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ASAPAmatom.com - Official Amatom Parts Catalog',
+    title: 'ASAP-Amatom.com - Official Amatom Parts Catalog',
     description: 'Browse 500,000+ Amatom aerospace and industrial parts',
   },
   verification: {
