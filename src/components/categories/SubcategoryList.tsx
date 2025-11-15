@@ -2,7 +2,8 @@ import { Link } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import type { Subcategory } from "../../types/part"
 import { SubcategoryListSkeleton } from "../common/SkeletonLoader"
-import { Package } from "lucide-react"
+import { usePagination, useInfiniteScroll } from "../../hooks/useInfiniteScroll"
+import { Package, Loader2 } from "lucide-react"
 
 interface SubcategoryListProps {
   subcategories: Subcategory[]
@@ -17,10 +18,28 @@ export default function SubcategoryList({
   isLoading,
   error,
 }: SubcategoryListProps) {
+  // Pagination with 9 items initially, load 6 more on scroll
+  const {
+    displayedItems,
+    hasMore,
+    isLoading: isPaginationLoading,
+    loadMore,
+    displayedCount,
+    totalItems
+  } = usePagination(subcategories, 9)
+
+  // Infinite scroll
+  const { sentinelRef } = useInfiniteScroll({
+    hasMore,
+    isLoading: isPaginationLoading,
+    onLoadMore: loadMore,
+    threshold: 200
+  })
+
   if (isLoading) {
     return (
       <div className="py-8">
-        <SubcategoryListSkeleton count={6} />
+        <SubcategoryListSkeleton count={9} />
       </div>
     )
   }
@@ -51,28 +70,56 @@ export default function SubcategoryList({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {subcategories.map((subcategory) => (
-        <Link
-          key={subcategory.slug}
-          to={`/categories/${categorySlug}/${subcategory.slug}`}
-        >
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">{subcategory.name}</CardTitle>
-                <Package className="h-5 w-5 text-primary" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                {subcategory.partCount.toLocaleString()} {subcategory.partCount === 1 ? 'part' : 'parts'}
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {displayedItems.map((subcategory) => (
+          <Link
+            key={subcategory.slug}
+            to={`/categories/${categorySlug}/${subcategory.slug}`}
+          >
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">{subcategory.name}</CardTitle>
+                  <Package className="h-5 w-5 text-primary" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  {subcategory.partCount.toLocaleString()} {subcategory.partCount === 1 ? 'part' : 'parts'}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
+
+      {/* Loading indicator for infinite scroll */}
+      {isPaginationLoading && (
+        <div className="flex justify-center items-center py-8 mt-6">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <span className="ml-2 text-gray-600">Loading more subcategories...</span>
+        </div>
+      )}
+
+      {/* Sentinel element for intersection observer */}
+      {hasMore && !isPaginationLoading && (
+        <div ref={sentinelRef} className="h-20 flex items-center justify-center mt-6">
+          <div className="text-sm text-gray-500">
+            Showing {displayedCount} of {totalItems} subcategories
+          </div>
+        </div>
+      )}
+
+      {/* End message */}
+      {!hasMore && totalItems > 9 && (
+        <div className="text-center py-8 mt-6">
+          <p className="text-gray-500 font-medium">
+            ✅ All {totalItems} subcategories loaded
+          </p>
+        </div>
+      )}
+    </>
   )
 }
 

@@ -16,7 +16,7 @@ export const usePartsList = (
   const { selectedManufacturer } = useManufacturerContext()
   
   return useQuery<PartsListResponse>({
-    queryKey: ['parts', category, subcategory, selectedManufacturer, page],
+    queryKey: ['parts', category, subcategory, selectedManufacturer, page, 'v3'], // v3 = improved logging + hardcoded fix
     queryFn: () => {
       if (!selectedManufacturer) {
         throw new Error('No manufacturer selected')

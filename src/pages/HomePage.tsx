@@ -3,6 +3,7 @@ import { useCategories } from "../hooks/useCategories"
 import CategoryGrid from "../components/categories/CategoryGrid"
 import ManufacturerSelector from "../components/manufacturer/ManufacturerSelector"
 import SEO from "../components/common/SEO"
+import LazyImage from "../components/common/LazyImage"
 import { FileText, Headphones, ShoppingCart, Shield, Truck, Wrench, Clock, Award, Search, Building2, Plane, StarIcon, Quote } from "lucide-react"
 import { Card, CardContent } from "../components/ui/card"
 
@@ -44,6 +45,9 @@ export default function HomePage() {
     }
   }
 
+  // Homepage OG Image
+  const homeImage = "https://asap-amatom.com/og-image.jpg"
+
   const combinedSchema = {
     "@context": "https://schema.org",
     "@graph": [organizationSchema, websiteSchema]
@@ -55,6 +59,8 @@ export default function HomePage() {
         title="ASAP-Amatom.com - Official Amatom Parts Catalog | 500,000+ Parts"
         description="Browse complete catalog of Amatom aerospace and industrial parts. 500,000+ parts across multiple categories including Standoffs, Fasteners, and more. Official Amatom manufacturer parts."
         canonical="https://asap-amatom.com/"
+        ogType="website"
+        ogImage={homeImage}
         keywords="Amatom parts, aerospace parts, industrial parts, standoffs, fasteners, Amatom catalog, aviation parts, 500000 parts"
         schema={combinedSchema}
       />
@@ -63,10 +69,11 @@ export default function HomePage() {
       <section className="relative w-full h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden mb-16 -mt-4">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
-          <img 
+          <LazyImage 
             src="/image/2.jpeg" 
             alt="ASAP-Amatom Building - Official Amatom Parts Catalog" 
             className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-700"
+            placeholder="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='800'%3E%3Crect width='1920' height='800' fill='%231e3a8a'/%3E%3C/svg%3E"
           />
           {/* Gradient Overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 via-blue-800/75 to-blue-900/85"></div>

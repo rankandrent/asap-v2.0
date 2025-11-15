@@ -6,9 +6,11 @@ export default function NotFound() {
   return (
     <>
       <SEO
-        title="404 - Page Not Found"
+        title="404 - Page Not Found | ASAP-Amatom.com"
         description="The page you're looking for doesn't exist. Browse our catalog of 500,000+ Amatom aerospace and industrial parts."
         canonical="https://asap-amatom.com/404"
+        ogType="website"
+        ogImage="https://asap-amatom.com/og-image.jpg"
         noIndex={true}
       />
       <div className="container mx-auto px-4 py-16 text-center">

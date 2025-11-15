@@ -51,32 +51,59 @@ export default function CategoryPage() {
 
   const categoryTitle = `${category?.name || "Category"} - Amatom Parts | ASAP-Amatom.com`
   const categoryDescription = `Browse all ${category?.name || "category"} parts from Amatom manufacturer. ${subcategories?.length || 0} subcategories available. Find specifications, pricing, and availability for aerospace and industrial ${category?.name} parts.`
-  const categoryKeywords = `${category?.name}, Amatom ${category?.name}, ${category?.name} parts, aerospace ${category?.name}, industrial ${category?.name}`
+  const categoryKeywords = `${category?.name}, Amatom ${category?.name}, ${category?.name} parts, aerospace ${category?.name}, industrial ${category?.name}, buy ${category?.name}`
+  const canonical = `https://asap-amatom.com/categories/${categorySlug}`
+  
+  // Dynamic OG image - category-specific
+  const categoryImage = `https://asap-amatom.com/images/categories/${categorySlug}.jpg`
+
+  // Breadcrumb Schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://asap-amatom.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": category?.name || "Category",
+        "item": canonical
+      }
+    ]
+  }
 
   // CollectionPage Schema
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": category?.name,
+    "name": category?.name || "Category",
     "description": categoryDescription,
-    "url": `https://asap-amatom.com/categories/${categorySlug}`,
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://asap-amatom.com"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": category?.name,
-          "item": `https://asap-amatom.com/categories/${categorySlug}`
+    "url": canonical,
+    "breadcrumb": breadcrumbSchema,
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": subcategories?.length || 0,
+      "itemListElement": subcategories?.slice(0, 10).map((subcat, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "CollectionPage",
+          "name": subcat.name,
+          "url": `https://asap-amatom.com/categories/${categorySlug}/${subcat.slug}`
         }
-      ]
+      })) || []
     }
+  }
+
+  // Combine schemas
+  const combinedSchema = {
+    "@context": "https://schema.org",
+    "@graph": [collectionSchema, breadcrumbSchema]
   }
 
   return (
@@ -84,9 +111,11 @@ export default function CategoryPage() {
       <SEO
         title={categoryTitle}
         description={categoryDescription}
-        canonical={`https://asap-amatom.com/categories/${categorySlug}`}
+        canonical={canonical}
+        ogType="website"
+        ogImage={categoryImage}
         keywords={categoryKeywords}
-        schema={collectionSchema}
+        schema={combinedSchema}
       />
 
       <div className="container mx-auto px-4 py-8">

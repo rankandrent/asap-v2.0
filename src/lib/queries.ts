@@ -4,6 +4,54 @@ import { slugify } from './utils'
 
 // Helper function removed - using Promise.race directly in queries
 
+// HARDCODED FALLBACK - Based on actual database data
+const HARDCODED_CATEGORIES: Record<string, Category[]> = {
+  'Amatom': [
+    { name: 'Standoffs', slug: 'standoffs', subcategoryCount: 6 },
+    { name: 'Handles', slug: 'handles', subcategoryCount: 2 },
+    { name: 'Spacers', slug: 'spacers', subcategoryCount: 7 },
+    { name: 'Screws And Bolts', slug: 'screws-and-bolts', subcategoryCount: 2 },
+    { name: 'Washers', slug: 'washers', subcategoryCount: 1 },
+    { name: 'Bearings And Bushings', slug: 'bearings-and-bushings', subcategoryCount: 1 },
+  ]
+}
+
+const HARDCODED_SUBCATEGORIES: Record<string, Record<string, Omit<Subcategory, 'category'>[]>> = {
+  'Amatom': {
+    'standoffs': [
+      { name: 'Brass Standoffs', slug: 'brass-standoffs', partCount: 122484 },
+      { name: 'Aluminum Standoffs', slug: 'aluminum-standoffs', partCount: 120406 },
+      { name: 'Steel Standoffs', slug: 'steel-standoffs', partCount: 82461 },
+      { name: 'Stainless Steel Standoffs', slug: 'stainless-steel-standoffs', partCount: 35868 },
+      { name: 'Phenolic Standoffs', slug: 'phenolic-standoffs', partCount: 6616 },
+      { name: 'Nylon Standoffs', slug: 'nylon-standoffs', partCount: 4645 },
+    ],
+    'handles': [
+      { name: 'Surface Mount Handles', slug: 'surface-mount-handles', partCount: 66634 },
+      { name: 'Handle Ferrules', slug: 'handle-ferrules', partCount: 633 },
+    ],
+    'spacers': [
+      { name: 'Aluminum Spacers', slug: 'aluminum-spacers', partCount: 14950 },
+      { name: 'Brass Spacers', slug: 'brass-spacers', partCount: 14888 },
+      { name: 'Steel Spacers', slug: 'steel-spacers', partCount: 8502 },
+      { name: 'Stainless Steel Spacers', slug: 'stainless-steel-spacers', partCount: 4472 },
+      { name: 'Phenolic Spacers', slug: 'phenolic-spacers', partCount: 2105 },
+      { name: 'Nylon Spacers', slug: 'nylon-spacers', partCount: 1498 },
+      { name: 'Cpvc Spacers', slug: 'cpvc-spacers', partCount: 12 },
+    ],
+    'screws-and-bolts': [
+      { name: 'Captive Screws', slug: 'captive-screws', partCount: 13613 },
+      { name: 'Jack Screws', slug: 'jack-screws', partCount: 24 },
+    ],
+    'washers': [
+      { name: 'Captive Screw Washers', slug: 'captive-screw-washers', partCount: 160 },
+    ],
+    'bearings-and-bushings': [
+      { name: 'Bushings', slug: 'bushings', partCount: 29 },
+    ],
+  }
+}
+
 export const getCategories = async (manufacturer: string): Promise<Category[]> => {
   if (!manufacturer || manufacturer.trim() === '') {
     console.error('❌ getCategories: No manufacturer provided')
@@ -12,6 +60,12 @@ export const getCategories = async (manufacturer: string): Promise<Category[]> =
   
   console.log(`🔄 getCategories: Starting for manufacturer: ${manufacturer}`)
   const startTime = Date.now()
+  
+  // TEMPORARY: Use hardcoded data for Amatom
+  if (manufacturer === 'Amatom' && HARDCODED_CATEGORIES[manufacturer]) {
+    console.log('✅ getCategories: Using HARDCODED fallback for', manufacturer)
+    return HARDCODED_CATEGORIES[manufacturer]
+  }
   
   // OPTIMIZED: Try to use RPC function first (fastest), fallback to sampling
   try {
@@ -257,6 +311,20 @@ export const getSubcategories = async (categorySlug: string, manufacturer: strin
   
   console.log(`🔄 getSubcategories: Starting for category: ${categorySlug}, manufacturer: ${manufacturer}`)
   
+  // TEMPORARY: Use hardcoded data for Amatom
+  if (manufacturer === 'Amatom' && HARDCODED_SUBCATEGORIES[manufacturer]?.[categorySlug]) {
+    console.log('✅ getSubcategories: Using HARDCODED fallback for', manufacturer, categorySlug)
+    // Find category name from slug
+    const category = HARDCODED_CATEGORIES[manufacturer]?.find(c => c.slug === categorySlug)
+    const categoryName = category?.name || categorySlug.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    
+    // Add category property to each subcategory
+    return HARDCODED_SUBCATEGORIES[manufacturer][categorySlug].map(subcat => ({
+      ...subcat,
+      category: categoryName
+    }))
+  }
+  
   // Get the actual category name from slug (more efficient)
   let categoryName: string | null = null
   try {
@@ -398,6 +466,25 @@ export const getSubcategories = async (categorySlug: string, manufacturer: strin
     .sort((a: Subcategory, b: Subcategory) => a.name.localeCompare(b.name)) // Sort alphabetically
 }
 
+// Helper function to get category and subcategory names from slugs using hardcoded data
+const getNamesFromSlugs = (categorySlug: string, subcategorySlug: string, manufacturer: string): { categoryName: string | null; subcategoryName: string | null } => {
+  if (manufacturer === 'Amatom' && HARDCODED_CATEGORIES[manufacturer]) {
+    // Find category
+    const category = HARDCODED_CATEGORIES[manufacturer].find(c => c.slug === categorySlug)
+    if (!category) return { categoryName: null, subcategoryName: null }
+
+    // Find subcategory
+    const subcategories = HARDCODED_SUBCATEGORIES[manufacturer]?.[categorySlug]
+    if (!subcategories) return { categoryName: category.name, subcategoryName: null }
+
+    const subcategory = subcategories.find(s => s.slug === subcategorySlug)
+    if (!subcategory) return { categoryName: category.name, subcategoryName: null }
+
+    return { categoryName: category.name, subcategoryName: subcategory.name }
+  }
+  return { categoryName: null, subcategoryName: null }
+}
+
 export const getPartsBySubcategory = async (
   categorySlug: string,
   subcategorySlug: string,
@@ -405,9 +492,80 @@ export const getPartsBySubcategory = async (
   page: number = 1,
   limit: number = 50
 ): Promise<{ parts: Part[]; total: number }> => {
+  console.log(`🔄 getPartsBySubcategory: Starting query`, {
+    categorySlug,
+    subcategorySlug,
+    manufacturer,
+    page,
+    limit
+  })
+
+  // FIRST: Try to use hardcoded data to get names (FASTEST)
+  const hardcodedNames = getNamesFromSlugs(categorySlug, subcategorySlug, manufacturer)
+  console.log(`🔍 getPartsBySubcategory: Hardcoded names lookup:`, hardcodedNames)
+  
+  if (hardcodedNames.categoryName && hardcodedNames.subcategoryName) {
+    console.log('✅ getPartsBySubcategory: Using HARDCODED names:', hardcodedNames)
+    
+    const from = (page - 1) * limit
+    const to = from + limit - 1
+
+    console.log(`📊 getPartsBySubcategory: Query params:`, {
+      category: hardcodedNames.categoryName,
+      subcategory: hardcodedNames.subcategoryName,
+      manufacturer,
+      from,
+      to
+    })
+
+    try {
+      const { data, count, error } = await supabase
+        .from('products_data')
+        .select('*', { count: 'exact' })
+        .eq('category', hardcodedNames.categoryName)
+        .eq('sub_category', hardcodedNames.subcategoryName)
+        .eq('manufacturer', manufacturer)
+        .order('productname', { ascending: true })
+        .range(from, to)
+
+      if (error) {
+        console.error('❌ getPartsBySubcategory: Supabase error:', error)
+        console.error('❌ Query details:', {
+          category: hardcodedNames.categoryName,
+          subcategory: hardcodedNames.subcategoryName,
+          manufacturer,
+          errorCode: error.code,
+          errorMessage: error.message
+        })
+        throw error
+      }
+
+      console.log(`✅ getPartsBySubcategory: Success! Fetched ${data?.length || 0} parts (page ${page}, total: ${count || 0})`)
+      if (data && data.length > 0) {
+        console.log(`📦 First part sample:`, {
+          id: data[0].id,
+          productname: data[0].productname,
+          category: data[0].category,
+          sub_category: data[0].sub_category
+        })
+      }
+      
+      return { parts: (data as Part[]) || [], total: count || 0 }
+    } catch (err) {
+      console.error('❌ getPartsBySubcategory: Exception in hardcoded query:', err)
+      throw err
+    }
+  }
+
+  // FALLBACK: Try database lookup (slower)
+  console.log('⚠️ getPartsBySubcategory: Using database lookup fallback...')
+  
   // Get actual category and subcategory names (more efficient)
   const categoryName = await getCategoryNameFromSlug(categorySlug, manufacturer)
-  if (!categoryName) return { parts: [], total: 0 }
+  if (!categoryName) {
+    console.warn('❌ getPartsBySubcategory: Category not found for slug:', categorySlug)
+    return { parts: [], total: 0 }
+  }
 
   // Get subcategory name - fetch a sample to find the matching one
   // We only need to check unique subcategories, not all parts
@@ -438,7 +596,10 @@ export const getPartsBySubcategory = async (
     }
   }
 
-  if (!subcategoryName) return { parts: [], total: 0 }
+  if (!subcategoryName) {
+    console.warn('❌ getPartsBySubcategory: Subcategory not found for slug:', subcategorySlug)
+    return { parts: [], total: 0 }
+  }
 
   const from = (page - 1) * limit
   const to = from + limit - 1

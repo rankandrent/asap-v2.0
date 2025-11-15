@@ -25,6 +25,8 @@ export default function AboutUsPage() {
         title="About Us - ASAP-Amatom.com | Our Story & Services"
         description="ASAP Semiconductor is a solution-based system integrator offering custom-procurement, distribution, logistics, and project management solutions to Fortune 100 companies, FAA operators, DoD, OEMs, and more."
         canonical="https://asap-amatom.com/about-us"
+        ogType="website"
+        ogImage="https://asap-amatom.com/og-image.jpg"
         keywords="about ASAP Semiconductor, aerospace parts distributor, defense contractor, logistics solutions, procurement services, FAA certified supplier"
         schema={organizationSchema}
       />

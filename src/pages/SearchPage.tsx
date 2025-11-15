@@ -40,14 +40,64 @@ export default function SearchPage() {
   const searchDescription = query 
     ? `Search results for "${query}" in Amatom parts catalog. Found ${parts?.length || 0} matching parts. Browse aerospace and industrial parts from official Amatom manufacturer.`
     : "Search 500,000+ Amatom aerospace and industrial parts. Find specifications, pricing, and availability for standoffs, fasteners, and more."
+  const canonical = `https://asap-amatom.com/search${query ? `?q=${encodeURIComponent(query)}` : ''}`
+  const searchKeywords = query ? `${query}, Amatom ${query}, search ${query} parts, ${query} aerospace parts` : "search parts, Amatom search, find parts"
+
+  // SearchAction Schema
+  const searchActionSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ASAP-Amatom.com",
+    "url": "https://asap-amatom.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://asap-amatom.com/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+
+  // SearchResultsPage Schema (when there's a query)
+  const searchResultsSchema = query && parts ? {
+    "@context": "https://schema.org",
+    "@type": "SearchResultsPage",
+    "name": searchTitle,
+    "description": searchDescription,
+    "url": canonical,
+    "mainEntity": {
+      "@type": "ItemList",
+      "numberOfItems": parts.length,
+      "itemListElement": parts.slice(0, 10).map((part, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": part.productname,
+          "description": part.description,
+          "url": `https://asap-amatom.com/parts/${encodeURIComponent(part.productname)}`
+        }
+      }))
+    }
+  } : null
+
+  // Combine schemas
+  const combinedSchema = searchResultsSchema ? {
+    "@context": "https://schema.org",
+    "@graph": [searchActionSchema, searchResultsSchema]
+  } : searchActionSchema
 
   return (
     <>
       <SEO
         title={searchTitle}
         description={searchDescription}
-        canonical={`https://asap-amatom.com/search${query ? `?q=${encodeURIComponent(query)}` : ''}`}
-        keywords={query ? `${query}, Amatom ${query}, search ${query} parts` : "search parts, Amatom search, find parts"}
+        canonical={canonical}
+        ogType="website"
+        ogImage="https://asap-amatom.com/og-image.jpg"
+        keywords={searchKeywords}
+        schema={combinedSchema}
       />
 
       <div className="container mx-auto px-4 py-8">

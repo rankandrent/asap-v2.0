@@ -10,7 +10,7 @@ export const useCategories = () => {
   const isEnabled = !!selectedManufacturer && selectedManufacturer.trim() !== ''
   
   return useQuery<Category[]>({
-    queryKey: ['categories', selectedManufacturer],
+    queryKey: ['categories', selectedManufacturer, 'v3'], // v3 = hardcoded fallback
     queryFn: async () => {
       try {
         if (!selectedManufacturer || selectedManufacturer.trim() === '') {
