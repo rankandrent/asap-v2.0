@@ -1,7 +1,11 @@
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Edge Function for SSR (handles dynamic meta tags)
+[[edge_functions]]
+  function = "ssr"
+  path = "/*"
+  
+# Make sure SSR function has access to environment variables
+[functions]
+  node_bundler = "esbuild"
 
 [build]
   command = "npm run build"
@@ -9,4 +13,20 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+# Fallback redirects (only for static assets)
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/image/*"
+  to = "/image/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/images/*"
+  to = "/images/:splat"
+  status = 200
 
