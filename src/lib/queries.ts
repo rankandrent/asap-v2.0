@@ -65,64 +65,104 @@ export const getCategories = async (manufacturer: string): Promise<Category[]> =
     // Continue with fallback method
   }
   
-  // FALLBACK: Fast single query with reasonable limit
-  // Fetch enough data to get all unique categories (typically just 1-2 categories)
-  console.log('🔄 getCategories: Using fallback method...')
+  // FALLBACK: Multiple batches to ensure we get ALL categories
+  // Problem: If we use limit(2000), we might only get 1 category if that category has many parts
+  // Solution: Fetch in batches with DISTINCT category first, then count subcategories
+  console.log('🔄 getCategories: Using fallback method with smart sampling...')
   const categoryMap = new Map<string, Set<string>>()
-  const FAST_SAMPLE = 2000 // Reduced to 2k for faster loading (should get all categories)
   
   try {
-    // Single query - fast and efficient with timeout
-    const queryPromise = supabase
+    // STEP 1: Get all unique categories first (fast)
+    console.log('📋 getCategories: Step 1 - Getting unique categories...')
+    const categoriesPromise = supabase
       .from('products_data')
-      .select('category, sub_category')
+      .select('category')
       .eq('manufacturer', manufacturer)
       .not('category', 'is', null)
       .neq('category', '')
-      .not('sub_category', 'is', null)
-      .neq('sub_category', '')
-      .limit(FAST_SAMPLE)
+      .limit(10000) // Get more rows to ensure we capture all categories
       .then(result => result)
     
-    const timeoutPromise = new Promise<{ data: null; error: unknown }>((resolve) => {
+    const timeoutPromise1 = new Promise<{ data: null; error: unknown }>((resolve) => {
       setTimeout(() => {
         resolve({ data: null, error: new Error('Query timeout') })
       }, 8000)
     })
     
-    const result = await Promise.race([queryPromise, timeoutPromise]).catch((err) => {
+    const result1 = await Promise.race([categoriesPromise, timeoutPromise1]).catch((err) => {
       console.error('Query timeout:', err)
       return { data: null, error: err }
     })
     
-    const data = result.data
-    const error = result.error
-    
-    if (error) {
-      console.error('❌ getCategories: Query error:', error)
-      throw error
+    if (result1.error) {
+      console.error('❌ getCategories: Error fetching categories:', result1.error)
+      throw result1.error
     }
     
-    if (data && data.length > 0) {
-      console.log(`📦 getCategories: Fetched ${data.length} parts`)
-      // Process all data at once (fast)
-      data.forEach((part: { category: string; sub_category: string }) => {
-        const cat = part.category?.trim()
-        const subCat = part.sub_category?.trim()
-        
-        if (cat) {
-          if (!categoryMap.has(cat)) {
-            categoryMap.set(cat, new Set())
-          }
-          if (subCat) {
-            categoryMap.get(cat)?.add(subCat)
-          }
-        }
+    if (!result1.data || result1.data.length === 0) {
+      console.warn('⚠️ getCategories: No categories found')
+      return []
+    }
+    
+    // Extract unique categories
+    const uniqueCategories = new Set<string>()
+    result1.data.forEach((row: { category: string }) => {
+      if (row.category?.trim()) {
+        uniqueCategories.add(row.category.trim())
+      }
+    })
+    
+    console.log(`✅ getCategories: Found ${uniqueCategories.size} unique categories:`, Array.from(uniqueCategories))
+    
+    // STEP 2: For each category, get sample of subcategories
+    console.log('📋 getCategories: Step 2 - Getting subcategories for each category...')
+    for (const category of uniqueCategories) {
+      const queryPromise = supabase
+        .from('products_data')
+        .select('sub_category')
+        .eq('manufacturer', manufacturer)
+        .eq('category', category)
+        .not('sub_category', 'is', null)
+        .neq('sub_category', '')
+        .limit(1000) // Sample subcategories per category
+        .then(result => result)
+    
+      const timeoutPromise2 = new Promise<{ data: null; error: unknown }>((resolve) => {
+        setTimeout(() => {
+          resolve({ data: null, error: new Error('Query timeout') })
+        }, 5000)
       })
-      console.log(`✅ getCategories: Found ${categoryMap.size} categories`)
-    } else {
-      console.warn('⚠️ getCategories: No data returned from query')
+      
+      const result2 = await Promise.race([queryPromise, timeoutPromise2]).catch((err) => {
+        console.warn(`⚠️ getCategories: Timeout for category ${category}:`, err)
+        return { data: null, error: err }
+      })
+      
+      if (result2.error) {
+        console.warn(`⚠️ getCategories: Error fetching subcategories for ${category}:`, result2.error)
+        // Initialize with empty set if error
+        categoryMap.set(category, new Set())
+        continue
+      }
+      
+      if (result2.data && result2.data.length > 0) {
+        const subcategories = new Set<string>()
+        result2.data.forEach((row: { sub_category: string }) => {
+          if (row.sub_category?.trim()) {
+            subcategories.add(row.sub_category.trim())
+          }
+        })
+        categoryMap.set(category, subcategories)
+        console.log(`  ✅ ${category}: ${subcategories.size} subcategories`)
+      } else {
+        // Category exists but no subcategories found
+        categoryMap.set(category, new Set())
+        console.log(`  ⚠️ ${category}: No subcategories found`)
+      }
     }
+    
+    console.log(`✅ getCategories: Processed ${categoryMap.size} categories`)
+    
   } catch (err) {
     console.error('❌ getCategories: Error in fallback method:', err)
     // Return empty array if query fails
