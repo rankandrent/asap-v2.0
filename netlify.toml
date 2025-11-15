@@ -1,20 +1,28 @@
-# Edge Function for SSR (handles dynamic meta tags)
-[[edge_functions]]
-  function = "ssr"
-  path = "/*"
-  
-# Make sure SSR function has access to environment variables
-[functions]
-  node_bundler = "esbuild"
+# Prerender.io Configuration for Dynamic Meta Tags (SSR)
+# Prerender.io automatically renders pages server-side for crawlers
+# Free tier: 250 pages/month
+# Paid tier: $25/month - UNLIMITED pages (Recommended for 500k pages)
 
-[build]
-  command = "npm run build"
-  publish = "dist"
+# User-Agent based redirects to Prerender.io
+[[redirects]]
+  from = "/parts/*"
+  to = "https://service.prerender.io/https://asap-amatom.com/:splat?token=:PRERENDER_TOKEN"
+  status = 200
+  force = false
+  conditions = {User-Agent = ["Googlebot", "googlebot", "Bingbot", "bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "baiduspider", "YandexBot", "facebookexternalhit", "twitterbot", "rogerbot", "linkedinbot", "embedly", "quora link preview", "showyoubot", "outbrain", "pinterest", "slackbot", "vkShare", "W3C_Validator", "whatsapp", "redditbot", "Applebot", "flipboard", "tumblr", "bitlybot", "SkypeUriPreview", "nuzzel", "DiscordBot", "Google Page Speed", "Qwantify", "pinterestbot", "Bitrix link preview", "XING-contenttabreceiver", "Chrome-Lighthouse", "TelegramBot", "SiteAuditBot", "SemrushBot"]}
+  # For FREE tier: Remove ?token=:PRERENDER_TOKEN from URL
+  # For PAID tier: Add PRERENDER_TOKEN to Netlify environment variables
 
-[build.environment]
-  NODE_VERSION = "18"
+[[redirects]]
+  from = "/categories/*"
+  to = "https://service.prerender.io/https://asap-amatom.com/:splat?token=:PRERENDER_TOKEN"
+  status = 200
+  force = false
+  conditions = {User-Agent = ["Googlebot", "googlebot", "Bingbot", "bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "baiduspider", "YandexBot", "facebookexternalhit", "twitterbot", "rogerbot", "linkedinbot", "embedly", "quora link preview", "showyoubot", "outbrain", "pinterest", "slackbot", "vkShare", "W3C_Validator", "whatsapp", "redditbot", "Applebot", "flipboard", "tumblr", "bitlybot", "SkypeUriPreview", "nuzzel", "DiscordBot", "Google Page Speed", "Qwantify", "pinterestbot", "Bitrix link preview", "XING-contenttabreceiver", "Chrome-Lighthouse", "TelegramBot", "SiteAuditBot", "SemrushBot"]}
+  # For FREE tier: Remove ?token=:PRERENDER_TOKEN from URL
+  # For PAID tier: Add PRERENDER_TOKEN to Netlify environment variables
 
-# Fallback redirects (only for static assets)
+# Static assets - no prerendering
 [[redirects]]
   from = "/assets/*"
   to = "/assets/:splat"
@@ -29,4 +37,21 @@
   from = "/images/*"
   to = "/images/:splat"
   status = 200
+
+# SPA fallback - all other routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+  
+# Optional: Prerender.io token (get from https://prerender.io)
+# Add as environment variable: PRERENDER_TOKEN = "your-token"
+# Then update redirects to: https://service.prerender.io/https://asap-amatom.com/:splat?token=:PRERENDER_TOKEN
 

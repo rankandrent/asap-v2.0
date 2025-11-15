@@ -1,221 +1,211 @@
-# ASAPAmatom.com - Next.js SEO-Optimized Version
+# ASAP-Amatom.com - Next.js 14 (App Router)
 
-## 🚀 Complete SEO-Optimized Next.js App with SSR
+> **Official Amatom Parts Catalog** - 500,000+ Aerospace & Industrial Parts
 
-This is a **production-ready** Next.js conversion of the React ASAPAmatom.com website with full Server-Side Rendering and comprehensive SEO optimization.
+## 🚀 Quick Start
 
-## ✅ SEO Features Implemented
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Supabase account
 
-### 1. **Server-Side Rendering (SSR)**
-- All pages pre-rendered on server
-- HTML content available before JavaScript loads
-- Faster initial page load
-- Better crawlability
+### Installation
 
-### 2. **Meta Tags & SEO**
-- Dynamic meta titles per page
-- Optimized meta descriptions
-- Keywords optimization
-- Canonical URLs
-- Open Graph tags (Facebook/LinkedIn)
-- Twitter Card tags
+```bash
+# 1. Install dependencies
+npm install
 
-### 3. **Schema.org Markup**
-- Product Schema for part pages
-- Breadcrumb Schema
-- Organization Schema
-- WebSite Schema with SearchAction
-- ItemList Schema for listings
+# 2. Setup environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your Supabase credentials
 
-### 4. **Sitemap & Robots.txt**
-- Dynamic sitemap.xml generation
-- robots.txt with proper rules
-- Auto-updates with new content
+# 3. Run development server
+npm run dev
 
-### 5. **Performance Optimization**
-- Next.js Image optimization
-- Code splitting
-- Lazy loading
-- Compression enabled
-- Core Web Vitals optimized
+# 4. Open http://localhost:3000
+```
 
-### 6. **Crawlability**
-- Clean URLs (no hash routing)
-- `<noscript>` fallback
-- Semantic HTML
-- Proper heading hierarchy
+## 📋 Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm start            # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # Check TypeScript types
+```
+
+## 🏗️ Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** Supabase (PostgreSQL)
+- **Data Fetching:** React Query + Server Components
+- **Forms:** React Hook Form + Zod
+- **Icons:** Lucide React
+
+## 🎯 Key Features
+
+### SEO Optimized for 500,000+ Pages
+- ✅ Server-Side Rendering (SSR)
+- ✅ Static Site Generation (SSG)
+- ✅ Incremental Static Regeneration (ISR)
+- ✅ On-Demand ISR for 500k+ parts
+- ✅ Automatic Sitemap Generation
+- ✅ Robots.txt
+- ✅ Open Graph & Twitter Cards
+- ✅ JSON-LD Structured Data
+
+### Performance
+- ✅ Image Optimization (Next/Image)
+- ✅ Font Optimization (Next/Font)
+- ✅ Automatic Code Splitting
+- ✅ React Query Caching
+- ✅ Server Component Caching
+
+### Developer Experience
+- ✅ TypeScript
+- ✅ ESLint
+- ✅ Tailwind CSS
+- ✅ File-based Routing
+- ✅ Hot Module Replacement
 
 ## 📁 Project Structure
 
 ```
 asap-nextjs/
 ├── src/
-│   ├── app/
-│   │   ├── layout.tsx           # Root layout with metadata
-│   │   ├── page.tsx             # Homepage with SSR
-│   │   ├── providers.tsx        # React Query provider
-│   │   ├── globals.css          # Global styles
-│   │   ├── categories/
-│   │   │   └── [slug]/
-│   │   │       ├── page.tsx     # Category page with SSR
-│   │   │       └── [subslug]/
-│   │   │           └── page.tsx # Subcategory page with SSR
-│   │   ├── parts/
-│   │   │   └── [productname]/
-│   │   │       └── page.tsx     # Part detail with SSR
-│   │   └── api/
-│   │       ├── sitemap/
-│   │       │   └── route.ts     # Sitemap generator
-│   │       └── robots/
-│   │           └── route.ts     # Robots.txt generator
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Header.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   └── Breadcrumb.tsx
-│   │   └── parts/
-│   │       ├── PartCard.tsx
-│   │       └── PartDetail.tsx
-│   └── lib/
-│       ├── supabase.ts          # Supabase client
-│       └── queries.ts           # Data fetching functions
-├── next.config.ts               # Next.js configuration
-├── tailwind.config.ts           # Tailwind CSS config
-└── package.json                 # Dependencies
-
+│   ├── app/                    # App Router (pages & layouts)
+│   ├── components/             # React components
+│   ├── lib/                    # Utilities & queries
+│   ├── types/                  # TypeScript types
+│   └── middleware.ts           # Next.js middleware
+├── public/                     # Static assets
+├── next.config.ts              # Next.js config
+├── tailwind.config.ts          # Tailwind config
+└── package.json
 ```
 
-## 🔧 Installation & Setup
+## 🔧 Configuration
 
-### Step 1: Install Dependencies
+### Environment Variables
+
+Create `.env.local`:
 
 ```bash
-cd asap-nextjs
-npm install
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SITE_URL=https://asap-amatom.com
 ```
 
-### Step 2: Environment Variables
+### Deployment
 
-Already configured in `.env.local`:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SITE_URL`
-
-### Step 3: Run Development Server
-
+#### Vercel (Recommended)
 ```bash
-npm run dev
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
 ```
 
-Visit: http://localhost:3000
-
-### Step 4: Build for Production
-
+#### Build Locally
 ```bash
 npm run build
 npm start
 ```
 
-## 📊 SEO Checklist
+## 📖 Documentation
 
-✅ Server-Side Rendering enabled
-✅ Meta tags dynamically generated
-✅ Sitemap.xml available at `/sitemap.xml`
-✅ Robots.txt available at `/robots.txt`
-✅ Schema.org JSON-LD markup
-✅ Open Graph tags for social sharing
-✅ Twitter Cards
-✅ Canonical URLs
-✅ Image optimization with next/image
-✅ Code splitting & lazy loading
-✅ `<noscript>` fallback message
-✅ Clean, crawlable URLs
-✅ Fast page loads (Core Web Vitals)
-
-## 🎯 Key Differences from React Version
-
-| Feature | React (Vite) | Next.js |
-|---------|--------------|---------|
-| Rendering | Client-Side | Server-Side |
-| SEO | Limited | Full SEO |
-| Initial Load | Slow | Fast |
-| Crawlability | Poor | Excellent |
-| Meta Tags | Static | Dynamic |
-| Sitemap | Manual | Auto-generated |
-| Images | Standard | Optimized |
-| Performance | Good | Excellent |
-
-## 🔍 SEO Testing
-
-### Test Server-Side Rendering:
-```bash
-curl http://localhost:3000 | grep "Welcome to ASAPAmatom"
-```
-
-Should return HTML with content (not empty).
-
-### Test Sitemap:
-Visit: http://localhost:3000/sitemap.xml
-
-### Test Robots.txt:
-Visit: http://localhost:3000/robots.txt
-
-### Test Meta Tags:
-View page source - should see all meta tags in HTML.
-
-## 🚀 Deployment
-
-### Vercel (Recommended):
-```bash
-npm install -g vercel
-vercel
-```
-
-### Netlify:
-```bash
-npm run build
-# Deploy `./next` folder
-```
-
-### Environment Variables on Deploy:
-Set these in your hosting platform:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SITE_URL`
-
-## 📈 Performance Metrics
-
-Expected Lighthouse scores:
-- Performance: 95+
-- SEO: 100
-- Accessibility: 90+
-- Best Practices: 95+
-
-## 🔄 Migration from React
-
-All features from React version maintained:
-✅ 500,000+ parts catalog
-✅ Categories & subcategories
-✅ Part detail pages
-✅ Search functionality
-✅ Pagination
-✅ Supabase integration
-✅ React Query for data fetching
-
-**PLUS New Features:**
-🆕 Server-Side Rendering
-🆕 SEO optimization
-🆕 Automatic sitemap
-🆕 Image optimization
-🆕 Better performance
-
-## 📞 Support
-
-For issues or questions, refer to Next.js documentation:
+- [Migration Guide](./MIGRATION_GUIDE.md) - Complete migration documentation
 - [Next.js Docs](https://nextjs.org/docs)
-- [Next.js SEO](https://nextjs.org/learn/seo/introduction-to-seo)
+- [Supabase Docs](https://supabase.io/docs)
+
+## 🎨 Pages
+
+| Route | Type | Revalidate | Description |
+|-------|------|------------|-------------|
+| `/` | ISR | 1 hour | Homepage with categories |
+| `/categories/[slug]` | ISR | 1 hour | Category page with subcategories |
+| `/categories/[slug]/[sub]` | ISR | 1 hour | Subcategory with parts list |
+| `/parts/[name]` | ISR | 1 day | Individual part detail (500k+ pages) |
+| `/search` | Client | - | Search parts dynamically |
+
+## 🔍 SEO Strategy
+
+### Homepage & Categories
+- Pre-generated at build time
+- ISR with 1-hour revalidation
+- Full metadata + structured data
+
+### Parts (500,000+ pages)
+- **On-Demand ISR** - Generated on first visit
+- Cached for 24 hours
+- Stale-While-Revalidate pattern
+- Full SEO metadata per part
+
+### Sitemap
+- Dynamically generated
+- Includes categories & subcategories
+- Parts added via ISR
+
+## 🚀 Performance Targets
+
+- **Lighthouse Score:** 95+
+- **First Contentful Paint:** < 1.5s
+- **Time to Interactive:** < 3s
+- **Core Web Vitals:** All green
+
+## 📝 Notes
+
+### Why On-Demand ISR?
+- Can't pre-generate 500k pages at build time (would take hours/days)
+- Pages are generated when users visit them
+- Once generated, cached for 24 hours
+- Perfect for large-scale catalogs
+
+### Server vs Client Components
+- **Server:** Default, better performance, direct database access
+- **Client:** Use for interactivity (forms, search, state)
+
+### Supabase Integration
+- Server Components: Use `@/lib/supabase/server`
+- Client Components: Use `@/lib/supabase/client`
+- Middleware: Use `@/lib/supabase/middleware`
+
+## 🐛 Troubleshooting
+
+### Build Errors
+```bash
+# Clear Next.js cache
+rm -rf .next
+
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Type Errors
+```bash
+npm run type-check
+```
+
+### Supabase Connection
+- Verify `.env.local` has correct credentials
+- Check Supabase project status
+- Verify RLS policies allow anonymous access
+
+## 📄 License
+
+Proprietary - ASAP-Amatom.com
+
+## 🤝 Support
+
+For support or questions:
+- Email: dev@asap-amatom.com
+- Documentation: See [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
 
 ---
 
-**Ready for Production! 🎉**
-
+**Built with ❤️ using Next.js 14**
