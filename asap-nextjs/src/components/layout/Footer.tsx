@@ -77,7 +77,6 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} ASAP-Amatom.com. All rights reserved.</p>
-          <p className="mt-2 text-gray-400">Powered by <span className="font-semibold text-white">Umar</span></p>
         </div>
       </div>
     </footer>
