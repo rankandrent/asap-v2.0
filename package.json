@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "postbuild": "react-snap",
+    "postbuild": "cp -r dist build && react-snap",
     "build:ssr": "npm run build && npm run generate-sitemap:dynamic",
     "start": "node server.js",
     "start:prod": "NODE_ENV=production node server.js",
