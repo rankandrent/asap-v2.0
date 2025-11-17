@@ -1,0 +1,15 @@
+// Example Netlify Edge Function - Simple version that works
+// To use: Copy this to ssr.ts and customize
+
+export default async function handler(request: Request): Promise<Response> {
+  // Simple pass-through for now
+  // You can add SSR logic here later
+  
+  return new Response('OK', {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+  })
+}
+
