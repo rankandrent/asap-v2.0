@@ -179,7 +179,7 @@ async function generateSEOTags(path: string, canonicalUrl: string, url: URL) {
 }
 
 // Netlify Edge Functions require default export
-export default async (request: Request, context: any) => {
+export default async function handler(request: Request, context: any): Promise<Response> {
   try {
     const url = new URL(request.url)
     const path = url.pathname
