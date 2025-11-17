@@ -46,14 +46,14 @@ export async function generateMetadata({
     return { title: 'Subcategory Not Found' }
   }
 
-  const title = `${subcategory.name} - ${category.name} | Amatom Parts`
-  const description = `Browse ${subcategory.partCount.toLocaleString()} ${subcategory.name} parts from Amatom. Find specifications, pricing, and availability for aerospace and industrial ${subcategory.name}.`
+  const title = `${subcategory.name} - ${category.name} | ${subcategory.partCount.toLocaleString()} Parts Available | Amatom | ASAP-Amatom.com`
+  const description = `Browse ${subcategory.partCount.toLocaleString()} ${subcategory.name} parts from Amatom manufacturer in ${category.name} category. Find detailed specifications, pricing, lead times, certifications, and availability. Aerospace and industrial ${subcategory.name} parts with fast shipping worldwide.`
   const canonical = `https://asap-amatom.com/categories/${params.categorySlug}/${params.subcategorySlug}`
 
   return {
     title,
     description,
-    keywords: `${subcategory.name}, ${category.name}, Amatom ${subcategory.name}, aerospace parts, industrial parts`,
+    keywords: `${subcategory.name} parts, ${category.name} ${subcategory.name}, Amatom ${subcategory.name}, buy ${subcategory.name}, ${subcategory.name} catalog, ${subcategory.name} specifications, ${subcategory.name} pricing, aerospace ${subcategory.name}, industrial ${subcategory.name}, ${subcategory.partCount.toLocaleString()} ${subcategory.name} available`,
     alternates: {
       canonical,
     },

@@ -32,8 +32,8 @@ export async function generateMetadata({
 
   const subcategories = await getSubcategories(params.categorySlug, 'Amatom')
 
-  const title = `${category.name} - Amatom Parts | ASAP-Amatom.com`
-  const description = `Browse all ${category.name} parts from Amatom manufacturer. ${subcategories.length} subcategories available. Find specifications, pricing, and availability for aerospace and industrial ${category.name} parts.`
+  const title = `${category.name} Parts - Amatom Manufacturer | ${subcategories.length} Subcategories | ASAP-Amatom.com`
+  const description = `Browse complete catalog of ${category.name} parts from Amatom manufacturer. ${subcategories.length} subcategories with thousands of parts available. Find specifications, pricing, lead times, and availability for aerospace and industrial ${category.name} parts. Official Amatom parts distributor.`
   const canonical = `https://asap-amatom.com/categories/${params.categorySlug}`
 
   // Breadcrumb Schema
@@ -82,7 +82,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    keywords: `${category.name}, Amatom ${category.name}, ${category.name} parts, aerospace ${category.name}, industrial ${category.name}`,
+    keywords: `${category.name} parts, Amatom ${category.name}, buy ${category.name}, ${category.name} catalog, aerospace ${category.name}, industrial ${category.name}, ${category.name} specifications, ${category.name} pricing, ${category.name} distributor`,
     alternates: {
       canonical,
     },

@@ -34,15 +34,16 @@ export async function generateMetadata({
     return { title: 'Part Not Found' }
   }
 
-  const title = `${part.productname} - ${part.description} | Amatom Parts`
-  const description = `Buy ${part.productname} from Amatom. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Status: ${part.availability_status}.` : ''} Official ASAP-Amatom.com catalog.`
+  // Create unique, SEO-optimized title and description
+  const title = `${part.productname} - ${part.description.substring(0, 60)}${part.description.length > 60 ? '...' : ''} | Amatom Parts | ASAP-Amatom.com`
+  const description = `Buy ${part.productname} from Amatom manufacturer. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Availability: ${part.availability_status}.` : ''} ${part.price ? `Price: $${part.price}.` : 'Contact for pricing.'} Specifications, certifications, and technical details available. Official ASAP-Amatom.com catalog.`
   const canonical = `https://asap-amatom.com/parts/${encodeURIComponent(part.productname)}`
   const imageUrl = part.images && part.images.length > 0 ? part.images[0] : 'https://asap-amatom.com/og-image.jpg'
 
   return {
     title,
     description,
-    keywords: `${part.productname}, Amatom, ${part.category}, ${part.sub_category}, ${part.manufacturer}, aerospace parts, industrial parts`,
+    keywords: `${part.productname}, buy ${part.productname}, ${part.productname} Amatom, ${part.category} ${part.sub_category}, ${part.manufacturer} parts, ${part.productname} specifications, ${part.productname} price, aerospace ${part.category}, industrial ${part.sub_category}`,
     alternates: {
       canonical,
     },
