@@ -1,4 +1,4 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+// Netlify Edge Functions - must use default export
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const PROD_DOMAIN = 'https://asap-amatom.com'
@@ -178,9 +178,10 @@ async function generateSEOTags(path: string, canonicalUrl: string, url: URL) {
   }
 }
 
-serve(async (req) => {
+// Netlify Edge Functions require default export
+export default async (request: Request, context: any) => {
   try {
-    const url = new URL(req.url)
+    const url = new URL(request.url)
     const path = url.pathname
 
     // Skip if it's an asset or API route
@@ -219,8 +220,8 @@ serve(async (req) => {
         html = await Deno.readTextFile('./dist/index.html')
       } catch (fileError) {
         // If file read fails, fetch from origin
-        const origin = req.headers.get('x-forwarded-host') || PROD_DOMAIN.replace('https://', '')
-        const protocol = req.headers.get('x-forwarded-proto') || 'https'
+        const origin = request.headers.get('x-forwarded-host') || PROD_DOMAIN.replace('https://', '')
+        const protocol = request.headers.get('x-forwarded-proto') || 'https'
         const originUrl = `${protocol}://${origin}/index.html`
         
         const htmlResponse = await fetch(originUrl, {
@@ -353,5 +354,5 @@ serve(async (req) => {
     console.error('Error in SSR function:', error)
     return new Response('Internal Server Error', { status: 500 })
   }
-})
+}
 
