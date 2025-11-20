@@ -38,6 +38,12 @@
   to = "/images/:splat"
   status = 200
 
+# Edge Function for SSR Meta Tags
+# This intercepts HTML requests and injects dynamic meta tags
+[[edge_functions]]
+  function = "ssr"
+  path = "/*"
+
 # SPA fallback - all other routes
 [[redirects]]
   from = "/*"

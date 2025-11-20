@@ -36,12 +36,18 @@ export default function SearchPage() {
     }
   }
 
-  const searchTitle = query ? `Search Results for "${query}" | ASAP-Amatom.com` : "Search Parts | ASAP-Amatom.com"
+  // Generate unique SEO content for search pages
+  const resultsCount = parts?.length || 0
+  const searchTitle = query 
+    ? `Search Results for "${query}" - ${resultsCount} Parts Found | ASAP-Amatom.com` 
+    : "Search Parts | Browse 500,000+ Amatom Parts | ASAP-Amatom.com"
   const searchDescription = query 
-    ? `Search results for "${query}" in Amatom parts catalog. Found ${parts?.length || 0} matching parts. Browse aerospace and industrial parts from official Amatom manufacturer.`
-    : "Search 500,000+ Amatom aerospace and industrial parts. Find specifications, pricing, and availability for standoffs, fasteners, and more."
+    ? `Browse ${resultsCount} search results for "${query}" in the Amatom parts catalog. Find aerospace and industrial parts with specifications, pricing, and availability. Official Amatom manufacturer parts distributor.`
+    : "Search our extensive catalog of 500,000+ Amatom aerospace and industrial parts. Find specifications, pricing, lead times, and availability for standoffs, fasteners, spacers, and more."
   const canonical = `https://asap-amatom.com/search${query ? `?q=${encodeURIComponent(query)}` : ''}`
-  const searchKeywords = query ? `${query}, Amatom ${query}, search ${query} parts, ${query} aerospace parts` : "search parts, Amatom search, find parts"
+  const searchKeywords = query 
+    ? `${query}, Amatom ${query}, search ${query} parts, ${query} aerospace parts, ${query} industrial parts, buy ${query}` 
+    : "search parts, Amatom parts, aerospace parts, industrial parts, part lookup, find parts"
 
   // SearchAction Schema
   const searchActionSchema = {

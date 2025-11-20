@@ -39,11 +39,23 @@ export default function PartDetailPage() {
   if (error || !part) {
     return (
       <>
-        <SEO
-          title="Part Not Found"
-          description="The part you're looking for doesn't exist or has been removed."
-          canonical={`https://asap-amatom.com/parts/${productname}`}
-        />
+        <head>
+          <title>Part Not Found | ASAP-Amatom.com</title>
+          <meta name="description" content="The part you're looking for doesn't exist or has been removed." />
+          <meta name="keywords" content="Part Not Found, ASAP-Amatom.com" />
+          <meta name="author" content="ASAP-Amatom.com" />
+          <meta name="robots" content="noindex, nofollow" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta name="theme-color" content="#000000" />
+          <meta name="msapplication-TileColor" content="#000000" />
+          <meta name="msapplication-config" content="none" />
+          <meta name="msapplication-TileImage" content="none" />
+          <meta name="msapplication-starturl" content="none" />
+          <meta name="msapplication-navbutton-color" content="#000000" />
+          <meta name="msapplication-window" content="none" />
+          <meta name="msapplication-tooltip" content="none" />
+          <meta name="msapplication-task" content="none" />
+        </head>
         <div className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
             <h1 className="text-2xl font-bold mb-4">Part Not Found</h1>
@@ -56,10 +68,10 @@ export default function PartDetailPage() {
     )
   }
 
-  // Generate SEO-optimized content
-  const partTitle = `${part.productname} - ${part.description} | Amatom Parts`
-  const partDescription = `Buy ${part.productname} from Amatom. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Status: ${part.availability_status}.` : ''} Official ASAP-Amatom.com catalog.`
-  const partKeywords = `${part.productname}, Amatom, ${part.category}, ${part.sub_category}, ${part.manufacturer}, aerospace parts, industrial parts`
+  // Generate SEO-optimized content - Unique for each part
+  const partTitle = `${part.productname} - ${part.description.substring(0, 60)}${part.description.length > 60 ? '...' : ''} | ${part.category} | Amatom Parts | ASAP-Amatom.com`
+  const partDescription = `Buy ${part.productname} from Amatom manufacturer. ${part.description}. Category: ${part.category} > ${part.sub_category}. ${part.availability_status ? `Availability: ${part.availability_status}.` : 'Contact for availability.'} ${part.price ? `Price: $${part.price}.` : 'Contact for pricing.'} Specifications, certifications, and technical details available. Official ASAP-Amatom.com catalog.`
+  const partKeywords = `${part.productname}, buy ${part.productname}, ${part.productname} Amatom, ${part.category} ${part.sub_category}, ${part.manufacturer} parts, ${part.productname} specifications, ${part.productname} price, aerospace ${part.category}, industrial ${part.sub_category}`
   const canonical = `https://asap-amatom.com/parts/${encodeURIComponent(part.productname)}`
   const imageUrl = part.images && part.images.length > 0 ? part.images[0] : 'https://asap-amatom.com/og-image.jpg'
 

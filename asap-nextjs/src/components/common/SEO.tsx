@@ -1,9 +1,26 @@
-import { Helmet } from "react-helmet-async"
-import { useLocation } from "react-router-dom"
+'use client'
+
+/**
+ * SEO Component for Next.js with React Helmet
+ * 
+ * This component works alongside Next.js Metadata API:
+ * - Next.js Metadata API handles SSR (server-side rendering)
+ * - React Helmet handles client-side dynamic updates
+ * 
+ * Usage:
+ * - For static pages: Use Next.js Metadata API (generateMetadata)
+ * - For dynamic client-side updates: Use this SEO component
+ * 
+ * Note: Next.js Metadata API is preferred for SSR, but this component
+ * allows for client-side meta tag updates when needed.
+ */
+
+import { Helmet } from 'react-helmet-async'
+import { usePathname } from 'next/navigation'
 
 interface SEOProps {
-  title: string
-  description: string
+  title?: string
+  description?: string
   canonical?: string
   ogType?: string
   ogImage?: string
@@ -15,84 +32,59 @@ interface SEOProps {
   alternates?: { hreflang: string; href: string }[]
 }
 
-export default function   SEO({
+export default function SEO({
   title,
   description,
   canonical,
-  ogType = "website",
+  ogType = 'website',
   ogImage,
   schema,
   keywords,
   robots,
-  author = "ASAP-Amatom.com",
+  author = 'ASAP-Amatom.com',
   noIndex = false,
   alternates,
 }: SEOProps) {
-  const location = useLocation()
-  const siteName = "ASAP-Amatom.com"
-  const siteUrl = "https://asap-amatom.com"
-  const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`
+  const pathname = usePathname()
+  const siteName = 'ASAP-Amatom.com'
+  const siteUrl = 'https://asap-amatom.com'
+  const fullTitle = title 
+    ? (title.includes(siteName) ? title : `${title} | ${siteName}`)
+    : `${siteName} - Official Amatom Parts Catalog`
   const defaultImage = `${siteUrl}/og-image.jpg`
   const finalImage = ogImage || defaultImage
 
-  console.log( title,
-    description,
-    canonical,
-    ogType = "website",
-    ogImage,
-    schema,
-    keywords,
-    robots,
-    author = "ASAP-Amatom.com",
-    noIndex = false,
-    alternates, 'SEO Component:')
-
-
   // Auto-generate canonical URL if not provided
-  // Uses current pathname to create absolute canonical URL
   const generateCanonicalUrl = (): string => {
     if (canonical) return canonical
     
-    // Get current pathname and remove trailing slash
-    const pathname = location.pathname.endsWith('/') && location.pathname !== '/' 
-      ? location.pathname.slice(0, -1) 
-      : location.pathname
+    const cleanPath = pathname.endsWith('/') && pathname !== '/' 
+      ? pathname.slice(0, -1) 
+      : pathname
     
-    // Handle root path
-    if (pathname === '/') return siteUrl
+    if (cleanPath === '/') return siteUrl
     
-    // Combine site URL with pathname
-    return `${siteUrl}${pathname}`
+    return `${siteUrl}${cleanPath}`
   }
 
   const canonicalUrl = generateCanonicalUrl()
 
-  // Debug logging (remove in production)
-  if (typeof window !== 'undefined') {
-    console.log('🔍 SEO Component:', {
-      pathname: location.pathname,
-      canonicalUrl,
-      title: fullTitle
-    })
-  }
-
   // Determine robots content
   const robotsContent = noIndex 
-    ? "noindex, nofollow" 
-    : (robots || "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1")
+    ? 'noindex, nofollow' 
+    : (robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
 
   return (
-
     <Helmet>
       {/* Basic Meta Tags */}
-      <title>{fullTitle}</title>
-      <meta name="title" content={fullTitle} />
-      <meta name="description" content={description} />
+      {title && <title>{fullTitle}</title>}
+      {title && <meta name="title" content={fullTitle} />}
+      {description && <meta name="description" content={description} />}
       {keywords && <meta name="keywords" content={keywords} />}
       {author && <meta name="author" content={author} />}
       <meta name="publisher" content={siteName} />
       
-      {/* Canonical URL - Critical for SEO - Auto-generated from current route */}
+      {/* Canonical URL */}
       <link rel="canonical" href={canonicalUrl} />
       
       {/* Alternate Language Links */}
@@ -106,9 +98,9 @@ export default function   SEO({
       ))}
 
       {/* Open Graph / Facebook */}
-      <meta property="og:type" content={ogType} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
+      {ogType && <meta property="og:type" content={ogType} />}
+      {title && <meta property="og:title" content={fullTitle} />}
+      {description && <meta property="og:description" content={description} />}
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:site_name" content={siteName} />
       <meta property="og:image" content={finalImage} />
@@ -118,8 +110,8 @@ export default function   SEO({
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
+      {title && <meta name="twitter:title" content={fullTitle} />}
+      {description && <meta name="twitter:description" content={description} />}
       <meta name="twitter:image" content={finalImage} />
       <meta name="twitter:site" content="@ASAPAmatom" />
       <meta name="twitter:creator" content="@ASAPAmatom" />

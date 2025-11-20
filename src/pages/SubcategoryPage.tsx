@@ -71,10 +71,11 @@ export default function SubcategoryPage() {
     }
   }
 
-  const subcategoryTitle = `${subcategory?.name || "Subcategory"} - ${category?.name || "Category"} | Amatom Parts | ASAP-Amatom.com`
+  // Generate unique SEO content for each subcategory
   const partCount = partsData && 'total' in partsData ? partsData.total : 0
-  const subcategoryDescription = `Shop ${subcategory?.name || "subcategory"} from Amatom manufacturer. Complete catalog of ${partCount.toLocaleString()} ${subcategory?.name} parts. Browse specifications, pricing, and availability. Category: ${category?.name}. Official ASAP-Amatom.com.`
-  const subcategoryKeywords = `${subcategory?.name}, ${category?.name}, Amatom ${subcategory?.name}, ${subcategory?.name} parts, buy ${subcategory?.name}, aerospace ${subcategory?.name}, industrial parts`
+  const subcategoryTitle = `${subcategory?.name || "Subcategory"} - ${category?.name || "Category"} | ${partCount.toLocaleString()} Parts Available | Amatom | ASAP-Amatom.com`
+  const subcategoryDescription = `Browse ${partCount.toLocaleString()} ${subcategory?.name} parts from Amatom manufacturer in ${category?.name} category. Find detailed specifications, pricing, lead times, certifications, and availability. Aerospace and industrial ${subcategory?.name} parts with fast shipping worldwide.`
+  const subcategoryKeywords = `${subcategory?.name} parts, ${category?.name} ${subcategory?.name}, Amatom ${subcategory?.name}, buy ${subcategory?.name}, ${subcategory?.name} catalog, ${subcategory?.name} specifications, ${subcategory?.name} pricing, aerospace ${subcategory?.name}, industrial ${subcategory?.name}, ${partCount.toLocaleString()} ${subcategory?.name} available`
   const canonical = `https://asap-amatom.com/categories/${categorySlug}/${subcategorySlug}`
   
   // Dynamic OG image - use first part image if available, otherwise category-specific

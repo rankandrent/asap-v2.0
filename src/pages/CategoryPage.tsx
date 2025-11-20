@@ -49,9 +49,11 @@ export default function CategoryPage() {
     )
   }
 
-  const categoryTitle = `${category?.name || "Category"} - Amatom Parts | ASAP-Amatom.com`
-  const categoryDescription = `Browse all ${category?.name || "category"} parts from Amatom manufacturer. ${subcategories?.length || 0} subcategories available. Find specifications, pricing, and availability for aerospace and industrial ${category?.name} parts.`
-  const categoryKeywords = `${category?.name}, Amatom ${category?.name}, ${category?.name} parts, aerospace ${category?.name}, industrial ${category?.name}, buy ${category?.name}`
+  // Generate unique SEO content for each category
+  const subcategoryCount = subcategories?.length || 0
+  const categoryTitle = `${category?.name || "Category"} Parts - Amatom Manufacturer | ${subcategoryCount} Subcategories | ASAP-Amatom.com`
+  const categoryDescription = `Browse complete catalog of ${category?.name || "category"} parts from Amatom manufacturer. ${subcategoryCount} subcategories with thousands of parts available. Find specifications, pricing, lead times, and availability for aerospace and industrial ${category?.name} parts. Official Amatom parts distributor.`
+  const categoryKeywords = `${category?.name} parts, Amatom ${category?.name}, buy ${category?.name}, ${category?.name} catalog, aerospace ${category?.name}, industrial ${category?.name}, ${category?.name} specifications, ${category?.name} pricing, ${category?.name} distributor`
   const canonical = `https://asap-amatom.com/categories/${categorySlug}`
   
   // Dynamic OG image - category-specific

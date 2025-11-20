@@ -33,13 +33,99 @@ export const submitRFQ = async (
     latitude: locationData?.latitude,
     longitude: locationData?.longitude,
     isp: locationData?.isp,
+    session_id: undefined, // Optional field, can be set later if needed
   }
 
-  const { data: insertedData, error } = await supabase
-    .from('rfqs')
-    .insert([rfqData])
-    .select()
-    .single()
+  // Use database function directly to bypass RLS issues
+  // This function uses SECURITY DEFINER and works reliably
+  let insertedData: RFQ | null = null
+  let error: any = null
+
+  console.log('Submitting RFQ via database function...', rfqData)
+
+  const { data: functionData, error: functionError } = await supabase
+    .rpc('insert_rfq', {
+      p_name: rfqData.name,
+      p_email: rfqData.email,
+      p_source_page: rfqData.source_page,
+      p_source_url: rfqData.source_url,
+      p_phone: rfqData.phone || null,
+      p_company: rfqData.company || null,
+      p_part_number: rfqData.part_number || null,
+      p_part_description: rfqData.part_description || null,
+      p_quantity: rfqData.quantity || 1,
+      p_target_price: rfqData.target_price || null,
+      p_message: rfqData.message || null,
+      p_urgency: rfqData.urgency || 'standard',
+      p_referrer: rfqData.referrer || null,
+      p_user_agent: rfqData.user_agent || null,
+      p_ip_address: rfqData.ip_address || null,
+      p_country: rfqData.country || null,
+      p_session_id: rfqData.session_id || null
+    })
+
+  console.log('Function response:', { functionData, functionError })
+
+  if (functionError) {
+    error = functionError
+    console.error('Database function error:', functionError)
+  } else if (functionData) {
+    // Supabase RPC wraps the result in an object with function name as key
+    // Format: [{insert_rfq: {...actual data...}}] or {insert_rfq: {...actual data...}}
+    let resultData: any = null
+    
+    if (Array.isArray(functionData) && functionData.length > 0) {
+      // Array format: [{insert_rfq: {...}}]
+      resultData = functionData[0]?.insert_rfq || functionData[0]
+    } else if (functionData && typeof functionData === 'object') {
+      // Object format: {insert_rfq: {...}}
+      resultData = functionData.insert_rfq || functionData
+    }
+    
+    if (resultData && resultData.id) {
+      insertedData = resultData as RFQ
+      console.log('RFQ inserted successfully:', insertedData)
+    } else {
+      error = new Error('Database function returned unexpected format')
+      console.error('Function returned unexpected data:', functionData)
+    }
+  } else {
+    error = new Error('Database function returned no data')
+    console.error('Function returned no data')
+  }
+
+  // Send email notification after successful RFQ submission
+  if (!error && insertedData) {
+    try {
+      // Call Netlify function to send email
+      const siteUrl = import.meta.env.VITE_SITE_URL || 'https://asap-amatom.com'
+      const emailResponse = await fetch(`${siteUrl}/.netlify/functions/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'rfq',
+          rfqData: insertedData,
+          trackingData: {
+            sourcePage: trackingData.sourcePage,
+            sourceUrl: trackingData.sourceUrl,
+            referrer: trackingData.referrer,
+            country: locationData?.country,
+            city: locationData?.city,
+            state: locationData?.state,
+          },
+        }),
+      })
+
+      if (!emailResponse.ok) {
+        console.warn('Email notification failed, but RFQ was saved:', await emailResponse.text())
+      }
+    } catch (emailError) {
+      // Don't fail the RFQ submission if email fails
+      console.warn('Email notification error (RFQ still saved):', emailError)
+    }
+  }
 
   return { data: insertedData, error }
 }
@@ -183,5 +269,21 @@ export const getRFQsByPage = async (): Promise<{
     .sort((a, b) => b.count - a.count)
 
   return { data: result, error: null }
+}
+
+export const getExitIntentEmails = async (limit: number = 50): Promise<{
+  data: Array<{ id: string; name: string; email: string; phone?: string; created_at: string; source_url?: string }> | null
+  error: any
+}> => {
+  const { data, error } = await supabase
+    .from('rfqs')
+    .select('id, name, email, phone, created_at, source_url')
+    .eq('source_page', 'Exit Intent Popup')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) return { data: null, error }
+
+  return { data, error: null }
 }
 
